@@ -1,0 +1,60 @@
+TAREAS          ,ESTADO
+leer            ,y
+leer_cadena     ,
+escribir        ,y
+si              ,y
+entonces        ,
+si_no           ,y
+fin_si          ,
+mientras        ,y
+hacer           ,
+fin_mientras    ,
+repetir         ,
+hasta           ,
+para            ,
+fin_para        ,
+desde           ,
+paso            ,
+casos           ,
+valor           ,
+defecto         ,
+fin_casos       ,
+borrar_pantalla ,
+lugar           ,
+verdadero       ,y
+falso           ,y
+#o              ,y
+#y              ,y
+#no             ,y
+identificador   ,y
+numero          ,
+cadena          ,
+asignacion      ,y
+suma            ,y
+resta           ,y
+producto        ,y
+division        ,y
+division_entera ,
+modulo          ,y
+potencia        ,y
+concatenacion   ,
+menor que       ,y
+mayor que       ,y
+menor igual que ,y
+mayor igual que ,y
+igual que       ,y
+distinto que    ,y
+disyuncion logica ,y
+conjuncion logica ,y
+negacion logica ,y
+comentario una linea ,
+comentario multi linea ,
+punto y coma     ,y
+asignacion expresion numerica ,y
+asignacion expresion alfanumerica ,
+asignacion expresion logica ,
+sentencia control si ,
+sentencia control mientras ,
+sentencia control repetir ,
+sentencia control para ,
+sentencia control casos ,
