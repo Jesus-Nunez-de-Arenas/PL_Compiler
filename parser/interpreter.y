@@ -173,7 +173,10 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 /*******************************************/
 
 /* NEW in example 17: IF, ELSE, WHILE */
-%token PRINT READ IF ELSE WHILE 
+%token PRINT READ IF ELSE WHILE
+
+/* NEW in Compiler */
+%token READ_STRING THEN END_IF DO END_WHILE REPEAT UNTIL FOR END_FOR FROM STEP CASE VALUE DEFAULT END_CASE CLEAN PLACE
 
 /* NEW in example 17 */
 %token LETFCURLYBRACKET RIGHTCURLYBRACKET
@@ -196,6 +199,9 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 
 /* MODIFIED in examples 11, 13 */
 %token <string> VARIABLE UNDEFINED CONSTANT BUILTIN
+
+/* NEW in Compiler */
+%token <string> STRING
 
 /* Left associativity */
 
@@ -340,7 +346,7 @@ controlSymbol:  /* Epsilon rule*/
 
 	/*  NEW in example 17 */
 if:	/* Simple conditional statement */
-	IF controlSymbol cond stmt 
+	IF controlSymbol cond stmt END_IF
     {
 		// Create a new if statement node
 		$$ = new lp::IfStmt($3, $4);
@@ -350,7 +356,7 @@ if:	/* Simple conditional statement */
 	}
 
 	/* Compound conditional statement */
-	| IF controlSymbol cond stmt  ELSE stmt 
+	| IF controlSymbol cond stmt  ELSE stmt END_IF
 	 {
 		// Create a new if statement node
 		$$ = new lp::IfStmt($3, $4, $6);
@@ -361,7 +367,7 @@ if:	/* Simple conditional statement */
 ;
 
 	/*  NEW in example 17 */
-while:  WHILE controlSymbol cond stmt 
+while:  WHILE controlSymbol cond stmt END_WHILE
 		{
 			// Create a new while statement node
 			$$ = new lp::WhileStmt($3, $4);

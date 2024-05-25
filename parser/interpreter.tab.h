@@ -60,52 +60,52 @@ extern int yydebug;
     IF = 261,                      /* IF  */
     ELSE = 262,                    /* ELSE  */
     WHILE = 263,                   /* WHILE  */
-    LETFCURLYBRACKET = 264,        /* LETFCURLYBRACKET  */
-    RIGHTCURLYBRACKET = 265,       /* RIGHTCURLYBRACKET  */
-    ASSIGNMENT = 266,              /* ASSIGNMENT  */
-    COMMA = 267,                   /* COMMA  */
-    NUMBER = 268,                  /* NUMBER  */
-    BOOL = 269,                    /* BOOL  */
-    VARIABLE = 270,                /* VARIABLE  */
-    UNDEFINED = 271,               /* UNDEFINED  */
-    CONSTANT = 272,                /* CONSTANT  */
-    BUILTIN = 273,                 /* BUILTIN  */
-    OR = 274,                      /* OR  */
-    AND = 275,                     /* AND  */
-    GREATER_OR_EQUAL = 276,        /* GREATER_OR_EQUAL  */
-    LESS_OR_EQUAL = 277,           /* LESS_OR_EQUAL  */
-    GREATER_THAN = 278,            /* GREATER_THAN  */
-    LESS_THAN = 279,               /* LESS_THAN  */
-    EQUAL = 280,                   /* EQUAL  */
-    NOT_EQUAL = 281,               /* NOT_EQUAL  */
-    NOT = 282,                     /* NOT  */
-    PLUS = 283,                    /* PLUS  */
-    MINUS = 284,                   /* MINUS  */
-    MULTIPLICATION = 285,          /* MULTIPLICATION  */
-    DIVISION = 286,                /* DIVISION  */
-    MODULO = 287,                  /* MODULO  */
-    LPAREN = 288,                  /* LPAREN  */
-    RPAREN = 289,                  /* RPAREN  */
-    UNARY = 290,                   /* UNARY  */
-    POWER = 291,                    /* POWER  */
-    READ_STRING = 292,             /* READ_STRING  */
-    THEN = 293,                    /* THEN  */
-    END_IF = 294,                  /* END_IF  */
-    DO = 295,                      /* DO  */
-    END_WHILE = 296,               /* END_WHILE  */
-    REPEAT = 297,                  /* REPEAT  */
-    UNTIL = 298,                   /* UNTIL  */
-    FOR = 299,                     /* FOR  */
-    END_FOR = 300,                 /* END_FOR  */
-    FROM = 301,                    /* FROM  */
-    STEP = 302,                    /* STEP  */
-    CASE = 303,                   /* CASE  */
-    VALUE = 304,                  /* VALUE  */
-    DEFAULT = 305,                /* DEFAULT  */
-    END_CASE = 306,               /* END_CASE  */
-    CLEAN = 307,                  /* CLEAN  */
-    PLACE = 308,                  /* PLACE  */
-    STRING = 309                 /* STRING  */
+    READ_STRING = 264,             /* READ_STRING  */
+    THEN = 265,                    /* THEN  */
+    END_IF = 266,                  /* END_IF  */
+    DO = 267,                      /* DO  */
+    END_WHILE = 268,               /* END_WHILE  */
+    REPEAT = 269,                  /* REPEAT  */
+    UNTIL = 270,                   /* UNTIL  */
+    FOR = 271,                     /* FOR  */
+    END_FOR = 272,                 /* END_FOR  */
+    FROM = 273,                    /* FROM  */
+    STEP = 274,                    /* STEP  */
+    CASE = 275,                    /* CASE  */
+    VALUE = 276,                   /* VALUE  */
+    DEFAULT = 277,                 /* DEFAULT  */
+    END_CASE = 278,                /* END_CASE  */
+    CLEAN = 279,                   /* CLEAN  */
+    PLACE = 280,                   /* PLACE  */
+    LETFCURLYBRACKET = 281,        /* LETFCURLYBRACKET  */
+    RIGHTCURLYBRACKET = 282,       /* RIGHTCURLYBRACKET  */
+    ASSIGNMENT = 283,              /* ASSIGNMENT  */
+    COMMA = 284,                   /* COMMA  */
+    NUMBER = 285,                  /* NUMBER  */
+    BOOL = 286,                    /* BOOL  */
+    VARIABLE = 287,                /* VARIABLE  */
+    UNDEFINED = 288,               /* UNDEFINED  */
+    CONSTANT = 289,                /* CONSTANT  */
+    BUILTIN = 290,                 /* BUILTIN  */
+    STRING = 291,                  /* STRING  */
+    OR = 292,                      /* OR  */
+    AND = 293,                     /* AND  */
+    GREATER_OR_EQUAL = 294,        /* GREATER_OR_EQUAL  */
+    LESS_OR_EQUAL = 295,           /* LESS_OR_EQUAL  */
+    GREATER_THAN = 296,            /* GREATER_THAN  */
+    LESS_THAN = 297,               /* LESS_THAN  */
+    EQUAL = 298,                   /* EQUAL  */
+    NOT_EQUAL = 299,               /* NOT_EQUAL  */
+    NOT = 300,                     /* NOT  */
+    PLUS = 301,                    /* PLUS  */
+    MINUS = 302,                   /* MINUS  */
+    MULTIPLICATION = 303,          /* MULTIPLICATION  */
+    DIVISION = 304,                /* DIVISION  */
+    MODULO = 305,                  /* MODULO  */
+    LPAREN = 306,                  /* LPAREN  */
+    RPAREN = 307,                  /* RPAREN  */
+    UNARY = 308,                   /* UNARY  */
+    POWER = 309                    /* POWER  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -125,7 +125,7 @@ union YYSTYPE
   lp::Statement *st;				 /* NEW in example 16 */
   lp::AST *prog;					 /* NEW in example 16 */
 
-#line 111 "interpreter.tab.h"
+#line 129 "interpreter.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

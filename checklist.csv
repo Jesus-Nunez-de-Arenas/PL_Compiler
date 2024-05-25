@@ -5,10 +5,10 @@ escribir        ,y
 si              ,y
 entonces        ,
 si_no           ,y
-fin_si          ,
+fin_si          ,y
 mientras        ,y
 hacer           ,keyword_added
-fin_mientras    ,keyword_added
+fin_mientras    ,y
 repetir         ,keyword_added
 hasta           ,keyword_added
 para            ,keyword_added
