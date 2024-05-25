@@ -104,7 +104,8 @@ extern int yydebug;
     DEFAULT = 305,                /* DEFAULT  */
     END_CASE = 306,               /* END_CASE  */
     CLEAN = 307,                  /* CLEAN  */
-    PLACE = 308                  /* PLACE  */
+    PLACE = 308,                  /* PLACE  */
+    STRING = 309                 /* STRING  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
