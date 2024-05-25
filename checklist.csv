@@ -53,8 +53,8 @@ punto y coma     ,y
 asignacion expresion numerica ,y
 asignacion expresion alfanumerica ,
 asignacion expresion logica ,
-sentencia control si ,
-sentencia control mientras ,
+sentencia control si ,y
+sentencia control mientras ,y
 sentencia control repetir ,
 sentencia control para ,
 sentencia control casos ,
