@@ -497,7 +497,7 @@ void lp::IntegerDivisionNode::printAST()
 	this->_right->printAST();
 }
 
-int lp::IntegerDivisionNode::evaulateInteger()
+double lp::IntegerDivisionNode::evaluateNumber()
 {
 	int result = 0;
 

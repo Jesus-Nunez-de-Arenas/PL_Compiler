@@ -54,9 +54,8 @@ namespace lp
 	*/
     virtual double evaluateNumber()
 	{
-		return 0.0;
+		return 0;
 	}		
-
 
 	/*!	
 		\brief   Evaluate the expression as BOOL
@@ -745,7 +744,7 @@ class IntegerDivisionNode : public NumericOperatorNode
 	\return  int
 	\sa		   printAST
 */
-  int evaulateInteger();
+  double evaluateNumber();
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

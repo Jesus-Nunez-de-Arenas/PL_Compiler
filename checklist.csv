@@ -34,7 +34,7 @@ suma            ,y
 resta           ,y
 producto        ,y
 division        ,y
-division_entera ,falla(detecta el tipo pero no se realiza la operacion correcta)
+division_entera ,y
 modulo          ,y
 potencia        ,y
 concatenacion   ,
