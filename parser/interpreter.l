@@ -150,6 +150,7 @@ IDENTIFIER  [a-zA-Z]([a-zA-Z0-9]|_?[a-zA-Z0-9])*
 "+"		{ return PLUS;   } 			/* NEW in example 3 */
 
 "*"	    { return MULTIPLICATION; } 	/* NEW in example 3 */
+"//"    { return INTEGER_DIVISION; } /* NEW in Compiler */
 "/"     { return DIVISION; } 		/* NEW in example 3 */
 
 "("     { return LPAREN; } 			/* NEW in example 3 */
