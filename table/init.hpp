@@ -75,7 +75,6 @@ static struct {
 						{"si",	  IF},   	// NEW in example 17
 						{"si_no",  ELSE}, 	// NEW in example 17
 						{"mientras", WHILE},	// NEW in example 17
-						/*
 						{"leer_cadena", READ_STRING},
 						{"entonces", THEN},
 						{"fin_si", END_IF},
@@ -93,8 +92,6 @@ static struct {
 						{"fin_casos", END_CASE},
 						{"borrar_pantalla", CLEAN},
 						{"lugar", PLACE},
-
-						*/
 	                    {"",      0}
 	                   };
 

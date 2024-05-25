@@ -87,7 +87,24 @@ extern int yydebug;
     LPAREN = 288,                  /* LPAREN  */
     RPAREN = 289,                  /* RPAREN  */
     UNARY = 290,                   /* UNARY  */
-    POWER = 291                    /* POWER  */
+    POWER = 291,                    /* POWER  */
+    READ_STRING = 292,             /* READ_STRING  */
+    THEN = 293,                    /* THEN  */
+    END_IF = 294,                  /* END_IF  */
+    DO = 295,                      /* DO  */
+    END_WHILE = 296,               /* END_WHILE  */
+    REPEAT = 297,                  /* REPEAT  */
+    UNTIL = 298,                   /* UNTIL  */
+    FOR = 299,                     /* FOR  */
+    END_FOR = 300,                 /* END_FOR  */
+    FROM = 301,                    /* FROM  */
+    STEP = 302,                    /* STEP  */
+    CASE = 303,                   /* CASE  */
+    VALUE = 304,                  /* VALUE  */
+    DEFAULT = 305,                /* DEFAULT  */
+    END_CASE = 306,               /* END_CASE  */
+    CLEAN = 307,                  /* CLEAN  */
+    PLACE = 308                  /* PLACE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
