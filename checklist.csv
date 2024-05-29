@@ -9,8 +9,8 @@ fin_si          ,y
 mientras        ,y
 hacer           ,y
 fin_mientras    ,y
-repetir         ,keyword_added
-hasta           ,Added but not working correctly
+repetir         ,y
+hasta           ,Added but not working correctly(for) working anything else
 para            ,Added but not working correctly
 fin_para        ,Added but not working correctly
 desde           ,Added but not working correctly

@@ -233,6 +233,54 @@ class NumberNode : public ExpNode
 	double evaluateNumber();
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+/*!	
+  \class StringNode
+  \brief Definition of atributes and methods of StringNode class
+  \note  StringNode Class publicly inherits from ExpNode class
+*/
+class StringNode : public ExpNode 
+{
+ private: 	
+   std::string _string; //!< \brief number of the StringNode
+ 
+ public:
+
+/*!		
+	\brief Constructor of StringNode
+	\param value: double
+	\post  A new StringNode is created with the value of the parameter
+	\note  Inline function
+*/
+  StringNode(std::string value)
+	{
+	    this->_string = value;
+	}
+
+	/*!	
+	\brief   Get the type of the expression: NUMBER
+	\return  int
+	\sa		   printAST, evaluateNumber
+	*/
+	int getType();
+
+	/*!
+		\brief   Print the AST for expression
+		\return  void
+		\sa		   getType, evaluateNumber
+	*/
+	void printAST();
+
+	/*!	
+		\brief   Evaluate the expression
+		\return  double
+		\sa		   getType, printAST
+	*/
+	std::string evaluateString();
+};
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
