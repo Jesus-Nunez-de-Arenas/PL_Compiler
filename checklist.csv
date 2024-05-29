@@ -3,18 +3,18 @@ leer            ,y
 leer_cadena     ,
 escribir        ,y
 si              ,y
-entonces        ,
+entonces        ,y
 si_no           ,y
 fin_si          ,y
 mientras        ,y
-hacer           ,keyword_added
+hacer           ,y
 fin_mientras    ,y
 repetir         ,keyword_added
-hasta           ,keyword_added
-para            ,keyword_added
-fin_para        ,keyword_added
-desde           ,keyword_added
-paso            ,keyword_added
+hasta           ,Added but not working correctly
+para            ,Added but not working correctly
+fin_para        ,Added but not working correctly
+desde           ,Added but not working correctly
+paso            ,Added but not working correctly
 casos           ,keyword_added
 valor           ,keyword_added
 defecto         ,keyword_added

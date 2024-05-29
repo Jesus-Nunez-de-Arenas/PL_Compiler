@@ -1711,7 +1711,45 @@ class WhileStmt : public Statement
   void evaluate();
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
+/*!	
+  \class   ForStmt
+  \brief   Definition of atributes and methods of ForStmt class
+  \note    ForStmt Class publicly inherits from Statement class 
+		       and adds its own printAST and evaluate functions
+*/
+class ForStmt : public Statement 
+{
+ private:
+	std::string _id; //!< Name of the variable of the ForStmt
+	ExpNode *_exp1; //!< Initial value of the variable
+	ExpNode *_exp2; //!< Final value of the variable
+	ExpNode *_step; //!< Step of the variable
+	Statement *_stmt; //!< Statement of the body of the loop
+
+  public:
+
+  ForStmt(std::string id, ExpNode *exp1, ExpNode *exp2, ExpNode *step, Statement *stmt): _id(id), _exp1(exp1), _exp2(exp2), _step(step), _stmt(stmt)
+	{
+		// Empty
+	}
+
+/*!
+	\brief   Print the AST for ForStmt
+	\return  void
+	\sa		   evaluate
+*/
+  void printAST();
+
+/*!
+	\brief   Evaluate the ForStmt
+	\return  void
+	\sa	   	 printAST
+*/
+  void evaluate();
+};	
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -1802,7 +1840,3 @@ class AST {
 
 // End of _AST_HPP_
 #endif
-
-
-
-

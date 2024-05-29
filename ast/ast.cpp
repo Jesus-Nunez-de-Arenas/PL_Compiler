@@ -1411,7 +1411,39 @@ void lp::WhileStmt::evaluate()
 }
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
+void lp::ForStmt::printAST() 
+{
+	std::cout << "ForStmt: "  << std::endl;
+  	// Initialization
+  	std::cout << "\t";
+  	std::cout << this->_id << std::endl;
+
+  	std::cout << "\t";
+  	this->_exp1->printAST();
+
+  	std::cout << "\t";
+  	this->_exp2->printAST();
+
+	std::cout << "\t";
+  	this->_step->printAST();
+
+  	// Body of the for loop
+  	std::cout << "\t";
+  	this->_stmt->printAST();
+
+  	std::cout << std::endl;
+}
+
+void lp::ForStmt::evaluate() 
+{
+	for(this->_exp1->evaluateNumber(); this->_exp2->evaluateNumber(); this->_step->evaluateNumber())
+	{
+		this->_stmt->evaluate();
+	}
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
