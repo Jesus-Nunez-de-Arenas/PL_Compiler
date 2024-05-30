@@ -63,6 +63,8 @@ NUMBER2 {DIGIT}*\.{DIGIT}+
 
 IDENTIFIER  [a-zA-Z]([a-zA-Z0-9]|_?[a-zA-Z0-9])*
 
+STRING \'(\\.|[^\\'])*\'
+
 /* NEW in example 3 */
 /* STATE  */
 %x ERROR
@@ -103,6 +105,12 @@ IDENTIFIER  [a-zA-Z]([a-zA-Z0-9]|_?[a-zA-Z0-9])*
 
 {IDENTIFIER}   		 {
 						 /* NEW in example 7 */
+						 //Convertir todo a minusculas
+						 for (int i = 0; i < yyleng; i++)
+						 {
+							 yytext[i] = tolower(yytext[i]);
+						 }
+						 
 						 std::string identifier(yytext);
 
 						/* 
@@ -146,6 +154,7 @@ IDENTIFIER  [a-zA-Z]([a-zA-Z0-9]|_?[a-zA-Z0-9])*
 							}
                      }
 
+
 "-"		{ return MINUS;  } 			/* NEW in example 3 */
 "+"		{ return PLUS;   } 			/* NEW in example 3 */
 
@@ -187,6 +196,17 @@ IDENTIFIER  [a-zA-Z]([a-zA-Z0-9]|_?[a-zA-Z0-9])*
 
 "}"		{ return RIGHTCURLYBRACKET; }	/* NEW in example 17 */
 
+{STRING}	{
+				/* NEW in example 7 */
+				/* 
+				 strdup() function returns a pointer to a new string 
+				 which  is a duplicate of the string yytext
+				*/
+				yylval.string =  strdup(yytext);
+
+				return STRING;
+			}
+
 
 <<EOF>> { /* The interpreter finishes when finds the end of file character */
 		/*  PLACE(24,10);
@@ -198,7 +218,6 @@ IDENTIFIER  [a-zA-Z]([a-zA-Z0-9]|_?[a-zA-Z0-9])*
 		*/
 	  	  return 0;
 	}
-
 
 .								{ 	
 									/* Any other character */

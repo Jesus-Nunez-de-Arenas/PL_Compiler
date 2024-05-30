@@ -68,6 +68,11 @@ namespace lp
 		return false;
 	}
 
+	virtual std::string evaluateString()
+	{
+		return "";
+	}
+
 };
 
 
@@ -125,6 +130,12 @@ class VariableNode : public ExpNode
 	*/
 	  bool evaluateBool();
 
+	/*!
+		\brief   Evaluate the Variable as STRING
+		\return  std::string
+		\sa		   getType, printAST
+	*/
+	  std::string evaluateString();
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -179,6 +190,13 @@ class ConstantNode : public ExpNode
 		\sa		   getType, printAST, evaluateNumber, evaluateBool
 	*/
 	  bool evaluateBool();
+
+	/*!
+		\brief   Evaluate the Constant as STRING
+		\return  std::string
+		\sa		   getType, printAST
+	*/
+	  std::string evaluateString();
 };
 
 
@@ -260,7 +278,7 @@ class StringNode : public ExpNode
 	}
 
 	/*!	
-	\brief   Get the type of the expression: NUMBER
+	\brief   Get the type of the expression: STRING
 	\return  int
 	\sa		   printAST, evaluateNumber
 	*/
@@ -275,7 +293,7 @@ class StringNode : public ExpNode
 
 	/*!	
 		\brief   Evaluate the expression
-		\return  double
+		\return  std::string
 		\sa		   getType, printAST
 	*/
 	std::string evaluateString();

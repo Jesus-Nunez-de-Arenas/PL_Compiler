@@ -403,7 +403,7 @@ do: 	DO stmt WHILE controlSymbol cond
 
 			control--;
 		}
-
+;
 		/*  NEW in Compiler */
 repeat: REPEAT stmt UNTIL controlSymbol cond
 		{
@@ -412,7 +412,7 @@ repeat: REPEAT stmt UNTIL controlSymbol cond
 
 			control--;
 		}
-
+;
 	/*  NEW in Compiler */
 for: FOR VARIABLE FROM exp UNTIL exp STEP exp DO controlSymbol stmt END_FOR
 		{
@@ -421,7 +421,7 @@ for: FOR VARIABLE FROM exp UNTIL exp STEP exp DO controlSymbol stmt END_FOR
 
 			control--;
 		}
-
+;
 	/*  NEW in example 17 */
 cond: 	LPAREN exp RPAREN
 		{ 

@@ -1,7 +1,7 @@
 TAREAS          ,ESTADO
 leer            ,y
 leer_cadena     ,
-escribir        ,y
+escribir        ,y(falta escribir cadena)
 si              ,y
 entonces        ,y
 si_no           ,y
@@ -28,7 +28,7 @@ falso           ,y
 #no             ,y
 identificador   ,y
 numero          ,y
-cadena          ,
+cadena          ,y
 asignacion      ,y
 suma            ,y
 resta           ,y
@@ -52,9 +52,9 @@ comentario multi linea ,
 punto y coma     ,y
 asignacion expresion numerica ,y
 asignacion expresion alfanumerica ,
-asignacion expresion logica ,
+asignacion expresion logica ,y
 sentencia control si ,y
 sentencia control mientras ,y
-sentencia control repetir ,
+sentencia control repetir ,y
 sentencia control para ,
 sentencia control casos ,
