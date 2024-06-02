@@ -333,6 +333,8 @@ int lp::RelationalOperatorNode::getType()
 		result = BOOL;
 	else if ( (this->_left->getType() == BOOL) and (this->_right->getType() == BOOL))
 		result = BOOL;
+	else if( (this->_left->getType() == STRING) and (this->_right->getType() == STRING))
+		result = BOOL;
 	else
 		warning("Runtime error: incompatible types for", "Relational Operator");
 
@@ -594,6 +596,46 @@ double lp::IntegerDivisionNode::evaluateNumber()
   return result;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void lp::ConcatenationNode::printAST()
+{
+  std::cout << "ConcatenationNode: &" << std::endl;
+  std::cout << "\t"; 
+	this->_left->printAST();
+	std::cout << "\t"; 
+	this->_right->printAST();
+}
+
+int lp::ConcatenationNode::getType()
+{
+	int result = 0;
+		
+	if ( (this->_left->getType() == STRING) and (this->_right->getType() == STRING))
+		result = STRING;
+	else
+		warning("Runtime error: incompatible types for", "Concatenation");
+
+	return	result;
+}
+
+std::string lp::ConcatenationNode::evaluateString() 
+{
+	std::string result = "";
+
+	// Ckeck the types of the expressions
+	if (this->getType() == STRING)
+	{
+		result = this->_left->evaluateString() + this->_right->evaluateString();
+	}
+	else
+	{
+		warning("Runtime error: the expressions are not string for", "Concatenation");
+	}
+
+  return result;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -938,24 +980,33 @@ bool lp::EqualNode::evaluateBool()
 
 	if (this->getType() == BOOL)
 	{
+		double leftNumber = 0.0, rightNumber = 0.0;
+		std::string leftString = "", rightString = "";
+		bool leftBoolean = false, rightBoolean = false;
+
 		switch(this->_left->getType()){
 			case NUMBER:
-				double leftNumber, rightNumber;
 				leftNumber = this->_left->evaluateNumber();
 				rightNumber = this->_right->evaluateNumber();
 
 				// ERROR_BOUND to control the precision of real numbers
 				result = ( std::abs(leftNumber - rightNumber) < ERROR_BOUND );
-			break;
+				break;
+			case STRING:
+				leftString = this->_left->evaluateString();
+				rightString = this->_right->evaluateString();
+
+				//  Compare the strings
+				result = (leftString == rightString);
+				break;
 			case BOOL:
-				bool leftBoolean, rightBoolean;
 				leftBoolean = this->_left->evaluateBool();
 				rightBoolean = this->_right->evaluateBool();
 
 				// 
 				result = (leftBoolean == rightBoolean);
 				break;
-		  default:
+			default:
 				warning("Runtime error: incompatible types of parameters for ", 
 								"Equal operator");				
 		}
@@ -1195,6 +1246,7 @@ void lp::AssignmentStmt::evaluate()
 
 				if (firstVar->getType() == STRING)
 				{
+					std::cout << "STRING" << std::endl;
 				  	// Get the identifier in the table of symbols as StringVariable
 					lp::StringVariable *v = (lp::StringVariable *) table.getSymbol(this->_id);
 
@@ -1209,8 +1261,14 @@ void lp::AssignmentStmt::evaluate()
 
 					// Insert the variable in the table of symbols as StringVariable 
 					// with the type STRING and the value 
+					
+					// Install the value without the quotes
+					value = value.substr(1, value.size()-2);
+
 					lp::StringVariable *v = new lp::StringVariable(this->_id,
 											VARIABLE,STRING,value);
+					
+
 					table.installSymbol(v);
 				}
 			}
@@ -1383,19 +1441,26 @@ void lp::PrintStmt::evaluate()
 	std::cout << "print: ";
 	std::cout << RESET; 
 
+	std::string str;
+
 	switch(this->_exp->getType())
 	{
 		case NUMBER:
 				std::cout << this->_exp->evaluateNumber() << std::endl;
 				break;
 		case STRING:
-				std::cout << this->_exp->evaluateString() << std::endl;
+				str = this->_exp->evaluateString();
+				// Quitar comillas si existen
+				if (!str.empty() && str[0] == '\'' && str[str.length() -1] == '\'') {
+					str = str.substr(1, str.size() - 2);
+				}
+				std::cout << str << std::endl;
 				break;
 		case BOOL:
 			if (this->_exp->evaluateBool())
-				std::cout << "true" << std::endl;
+				std::cout << "verdadero" << std::endl;
 			else
-				std::cout << "false" << std::endl;
+				std::cout << "falso" << std::endl;
 		
 			break;
 
@@ -1447,6 +1512,51 @@ void lp::ReadStmt::evaluate()
 		// with the type NUMBER and the read value 
 		lp::NumericVariable *n = new lp::NumericVariable(this->_id, 
 									  VARIABLE,NUMBER,value);
+
+		table.installSymbol(n);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void lp::ReadStringStmt::printAST() 
+{
+  std::cout << "ReadStringStmt: read"  << std::endl;
+  std::cout << "\t";
+  std::cout << this->_id;
+  std::cout << std::endl;
+}
+
+void lp::ReadStringStmt::evaluate(){
+	std::string value;
+	std::cout << BIYELLOW; 
+	std::cout << "Insert a string value --> " ;
+	std::cout << RESET; 
+	std::cin >> value;
+
+	/* Get the identifier in the table of symbols as Variable */
+	lp::Variable *var = (lp::Variable *) table.getSymbol(this->_id);
+
+	// Check if the type of the variable is STRING
+	if (var->getType() == STRING)
+	{
+		/* Get the identifier in the table of symbols as StringVariable */
+		lp::StringVariable *n = (lp::StringVariable *) table.getSymbol(this->_id);
+						
+		/* Assignment the read value to the identifier */
+		n->setValue(value);
+	}
+	// The type of variable is not STRING
+	else
+	{
+		// Delete $1 from the table of symbols as Variable
+		table.eraseSymbol(this->_id);
+
+			// Insert $1 in the table of symbols as StringVariable 
+		// with the type STRING and the read value 
+		lp::StringVariable *n = new lp::StringVariable(this->_id, 
+									  VARIABLE,STRING,value);
 
 		table.installSymbol(n);
 	}
@@ -1537,6 +1647,33 @@ void lp::WhileStmt::evaluate()
 
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NEW in Compiler
+
+void lp::RepeatStmt::printAST() 
+{
+  std::cout << "RepeatStmt: "  << std::endl;
+  // Body of the repeat loop
+  std::cout << "\t";
+  this->_stmt->printAST();
+
+  // Condition
+  std::cout << "\t";
+  this->_cond->printAST();
+
+  std::cout << std::endl;
+}
+
+void lp::RepeatStmt::evaluate() 
+{
+  // Repeat the body until the condition is true
+  do
+  {
+	  this->_stmt->evaluate();
+  }
+  while (this->_cond->evaluateBool() == false);
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////

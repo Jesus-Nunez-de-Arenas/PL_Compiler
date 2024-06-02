@@ -116,7 +116,7 @@ class StringVariable:public lp::Variable
 */
 	inline void setValue(std::string value)
 	{
-	    this->_value = value;
+		this->_value = value;
 	}
 
 

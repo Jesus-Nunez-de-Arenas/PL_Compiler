@@ -159,7 +159,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 %type <stmts> stmtlist
 
 // New in example 17: if, while, block
-%type <st> stmt asgn print read if while block for do repeat
+%type <st> stmt asgn print read if while block for do repeat read_string
 
 %type <prog> program
 
@@ -223,7 +223,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 %left MULTIPLICATION DIVISION MODULO
 
 /* MODIFIED in Compiler */
-%left INTEGER_DIVISION
+%left INTEGER_DIVISION CONCATENATION
 
 %left LPAREN RPAREN
 
@@ -312,6 +312,11 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 		// Default action
 		// $$ = $1;
 	  }
+	| read_string SEMICOLON
+	  {
+		// Default action
+		// $$ = $1;
+	  }
 	/*  NEW in example 17 */
 	| if 
 	 {
@@ -385,10 +390,10 @@ if:	/* Simple conditional statement */
 ;
 
 	/*  NEW in example 17 */
-while:  WHILE controlSymbol cond stmt END_WHILE
+while:  WHILE controlSymbol cond DO stmt END_WHILE
 		{
 			// Create a new while statement node
-			$$ = new lp::WhileStmt($3, $4);
+			$$ = new lp::WhileStmt($3, $5);
 
 			// To control the interactive mode
 			control--;
@@ -408,7 +413,7 @@ do: 	DO stmt WHILE controlSymbol cond
 repeat: REPEAT stmt UNTIL controlSymbol cond
 		{
 			// Create a new repeat statement node
-			$$ = new lp::WhileStmt($5, $2);
+			$$ = new lp::RepeatStmt($5, $2);
 
 			control--;
 		}
@@ -474,6 +479,12 @@ read:  READ LPAREN VARIABLE RPAREN
 		}
 ;
 
+read_string:  READ_STRING LPAREN VARIABLE RPAREN  
+		{
+			// Create a new read node
+			 $$ = new lp::ReadStringStmt($3);
+		}
+
 
 exp:	NUMBER 
 		{ 
@@ -485,6 +496,12 @@ exp:	NUMBER
 		{
 			// Create a new string node
 			$$ = new lp::StringNode($1);
+		}
+
+	|  exp CONCATENATION exp
+		{
+			// Create a new concatenation node
+			$$ = new lp::ConcatenationNode($1, $3);
 		}
 
 	| 	exp PLUS exp 

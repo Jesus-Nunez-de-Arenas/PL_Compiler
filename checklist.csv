@@ -1,6 +1,6 @@
 TAREAS          ,ESTADO
 leer            ,y
-leer_cadena     ,
+leer_cadena     ,y
 escribir        ,y(falta escribir cadena)
 si              ,y
 entonces        ,y
@@ -37,7 +37,7 @@ division        ,y
 division_entera ,y
 modulo          ,y
 potencia        ,y
-concatenacion   ,
+concatenacion   ,y
 menor que       ,y
 mayor que       ,y
 menor igual que ,y
@@ -51,7 +51,7 @@ comentario una linea ,
 comentario multi linea ,
 punto y coma     ,y
 asignacion expresion numerica ,y
-asignacion expresion alfanumerica ,
+asignacion expresion alfanumerica ,?
 asignacion expresion logica ,y
 sentencia control si ,y
 sentencia control mientras ,y
