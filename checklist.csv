@@ -10,11 +10,11 @@ mientras        ,y
 hacer           ,y
 fin_mientras    ,y
 repetir         ,y
-hasta           ,Added but not working correctly(for) working anything else
-para            ,Added but not working correctly
-fin_para        ,Added but not working correctly
-desde           ,Added but not working correctly
-paso            ,Added but not working correctly
+hasta           ,y
+para            ,y
+fin_para        ,y
+desde           ,y
+paso            ,y
 casos           ,keyword_added
 valor           ,keyword_added
 defecto         ,keyword_added

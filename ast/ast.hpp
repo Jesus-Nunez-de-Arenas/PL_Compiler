@@ -1752,6 +1752,7 @@ class EmptyStmt : public Statement
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // NEW in example 17
+// Modified in Compiler
 
 /*!	
   \class   IfStmt
@@ -1763,36 +1764,36 @@ class IfStmt : public Statement
 {
  private:
   ExpNode *_cond;    //!< Condicion of the if statement
-  Statement *_stmt1; //!< Statement of the consequent
-  Statement *_stmt2; //!< Statement of the alternative
+  std::list<Statement*> *_stmts1; //!< Block statement of the consequent
+  std::list<Statement*> *_stmts2; //!< Block statement of the alternative
 
   public:
 /*!		
 	\brief Constructor of Single IfStmt (without alternative)
 	\param condition: ExpNode of the condition
-	\param statement1: Statement of the consequent
+	\param statements1: Block statement of the consequent
 	\post  A new IfStmt is created with the parameters
 */
-  IfStmt(ExpNode *condition, Statement *statement1)
+  IfStmt(ExpNode *condition, std::list<Statement*> *statements1)
 	{
 		this->_cond = condition;
-		this->_stmt1 = statement1;
-		this->_stmt2 = NULL;
+		this->_stmts1 = statements1;
+		this->_stmts2 = NULL;
 	}
 
 
 /*!		
 	\brief Constructor of Compound IfStmt (with alternative)
 	\param condition: ExpNode of the condition
-	\param statement1: Statement of the consequent
-	\param statement2: Statement of the alternative
+	\param statements1: Block statement of the consequent
+	\param statement2s: Block statement of the alternative
 	\post  A new IfStmt is created with the parameters
 */
-  IfStmt(ExpNode *condition, Statement *statement1, Statement *statement2)
+  IfStmt(ExpNode *condition, std::list<Statement*> *statements1, std::list<Statement*> *statements2)
 	{
 		this->_cond = condition;
-		this->_stmt1 = statement1;
-		this->_stmt2 = statement2;
+		this->_stmts1 = statements1;
+		this->_stmts2 = statements2;
 	}
 
 
@@ -1817,7 +1818,8 @@ class IfStmt : public Statement
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// NEW in example 17
+// NEW in example 17 
+// Modified in Compiler
 
 /*!	
   \class   WhileStmt
@@ -1829,7 +1831,7 @@ class WhileStmt : public Statement
 {
  private:
   ExpNode *_cond; //!< Condicion of the while statement
-  Statement *_stmt; //!< Statement of the body of the while loop
+  std::list<Statement*> *_stmts; //!< Statement of the body of the while loop
 
   public:
 /*!		
@@ -1838,10 +1840,10 @@ class WhileStmt : public Statement
 	\param statement: Statement of the body of the loop 
 	\post  A new WhileStmt is created with the parameters
 */
-  WhileStmt(ExpNode *condition, Statement *statement)
+  WhileStmt(ExpNode *condition, std::list<Statement*> *_stmts)
 	{
 		this->_cond = condition;
-		this->_stmt = statement;
+		this->_stmts = _stmts;
 	}
 
 
@@ -1873,7 +1875,7 @@ class RepeatStmt : public Statement
 {
  private:
   ExpNode *_cond; //!< Condicion of the repeat statement
-  Statement *_stmt; //!< Statement of the body of the repeat loop
+  std::list<Statement*> *_stmts; //!< Statement of the body of the repeat loop
 
   public:
 /*!
@@ -1882,10 +1884,10 @@ class RepeatStmt : public Statement
 	\param statement: Statement of the body of the loop 
 	\post  A new RepeatStmt is created with the parameters
 */
-  RepeatStmt(ExpNode *condition, Statement *statement)
+  RepeatStmt(ExpNode *condition, std::list<Statement*> *statements)
 	{
 		this->_cond = condition;
-		this->_stmt = statement;
+		this->_stmts = statements;
 	}
 
 /*!
@@ -1920,11 +1922,11 @@ class ForStmt : public Statement
 	ExpNode *_exp1; //!< Initial value of the variable
 	ExpNode *_exp2; //!< Final value of the variable
 	ExpNode *_step; //!< Step of the variable
-	Statement *_stmt; //!< Statement of the body of the loop
+	std::list<Statement*> *_stmts; //!< Statement of the body of the loop
 
   public:
 
-  ForStmt(std::string id, ExpNode *exp1, ExpNode *exp2, ExpNode *step, Statement *stmt): _id(id), _exp1(exp1), _exp2(exp2), _step(step), _stmt(stmt)
+  ForStmt(std::string id, ExpNode *exp1, ExpNode *exp2, ExpNode *step, std::list<Statement*> *stmts): _id(id), _exp1(exp1), _exp2(exp2), _step(step), _stmts(stmts)
 	{
 		// Empty
 	}
@@ -1943,6 +1945,88 @@ class ForStmt : public Statement
 */
   void evaluate();
 };	
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NEW in Compiler
+
+/*!
+	\class  ClearStmt
+	\brief  Definition of atributes and methods of ClearStmt class
+	\note   ClearStmt Class publicly inherits from Statement class 
+		    and adds its own printAST and evaluate functions
+*/
+
+class ClearStmt : public Statement 
+{
+  public:
+/*!
+	\brief Constructor of ClearStmt
+	\post  A new ClearStmt is created
+*/
+  ClearStmt()
+	{
+		// Empty
+	}
+
+/*!
+	\brief   Print the AST for ClearStmt
+	\return  void
+	\sa		   evaluate
+*/
+  void printAST();
+
+/*!
+	\brief   Evaluate the ClearStmt
+	\return  void
+	\sa	   	 printAST
+*/
+  void evaluate();
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NEW in Compiler
+
+/*!
+	\class PlaceStmt
+	\brief Definition of atributes and methods of PlaceStmt class
+	\note  PlaceStmt Class publicly inherits from Statement class 
+		   and adds its own printAST and evaluate functions
+*/
+
+class PlaceStmt : public Statement 
+{
+  private:
+	ExpNode *_exp1; //!< X coordinate of the place statement
+	ExpNode *_exp2; //!< Y coordinate of the place statement
+
+  public:
+/*!
+	\brief Constructor of PlaceStmt
+	\param exp1: pointer to ExpNode, X coordinate of the place statement
+	\param exp2: pointer to ExpNode, Y coordinate of the place statement
+	\post  A new PlaceStmt is created with the parameters
+*/
+  PlaceStmt(ExpNode *exp1, ExpNode *exp2): _exp1(exp1), _exp2(exp2)
+	{
+		// Empty
+	}
+
+/*!
+	\brief   Print the AST for PlaceStmt
+	\return  void
+	\sa		   evaluate
+*/
+  void printAST();
+
+/*!
+	\brief   Evaluate the PlaceStmt
+	\return  void
+	\sa	   	 printAST
+*/
+  void evaluate();
+};
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////

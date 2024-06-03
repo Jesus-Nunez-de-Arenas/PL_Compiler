@@ -1,0 +1,3 @@
+dat := 'fdg';
+
+escribir(dat);

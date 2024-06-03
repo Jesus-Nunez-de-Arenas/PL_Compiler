@@ -159,7 +159,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 %type <stmts> stmtlist
 
 // New in example 17: if, while, block
-%type <st> stmt asgn print read if while block for do repeat read_string
+%type <st> stmt asgn print read if while block for do repeat read_string clear place
 
 %type <prog> program
 
@@ -350,6 +350,18 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 		// Default action
 		// $$ = $1;
 	 }
+	/*  NEW in Compiler */
+	| clear
+	 {
+		// Default action
+		// $$ = $1;
+	 }
+	/*  NEW in Compiler */
+	| place
+	 {
+		// Default action
+		// $$ = $1;
+	 }
 ;
 
 
@@ -369,7 +381,7 @@ controlSymbol:  /* Epsilon rule*/
 
 	/*  NEW in example 17 */
 if:	/* Simple conditional statement */
-	IF controlSymbol cond THEN stmt END_IF
+	IF controlSymbol cond THEN stmtlist END_IF
     {
 		// Create a new if statement node
 		$$ = new lp::IfStmt($3, $5);
@@ -379,7 +391,7 @@ if:	/* Simple conditional statement */
 	}
 
 	/* Compound conditional statement */
-	| IF controlSymbol cond THEN stmt ELSE stmt END_IF
+	| IF controlSymbol cond THEN stmtlist ELSE stmtlist END_IF
 	 {
 		// Create a new if statement node
 		$$ = new lp::IfStmt($3, $5, $7);
@@ -390,7 +402,7 @@ if:	/* Simple conditional statement */
 ;
 
 	/*  NEW in example 17 */
-while:  WHILE controlSymbol cond DO stmt END_WHILE
+while:  WHILE controlSymbol cond DO stmtlist END_WHILE
 		{
 			// Create a new while statement node
 			$$ = new lp::WhileStmt($3, $5);
@@ -401,7 +413,7 @@ while:  WHILE controlSymbol cond DO stmt END_WHILE
 ;
 
 		/*  NEW in Compiler */
-do: 	DO stmt WHILE controlSymbol cond
+do: 	DO stmtlist WHILE controlSymbol cond
 		{
 			// Create a new do statement node
 			$$ = new lp::WhileStmt($5, $2);
@@ -410,7 +422,7 @@ do: 	DO stmt WHILE controlSymbol cond
 		}
 ;
 		/*  NEW in Compiler */
-repeat: REPEAT stmt UNTIL controlSymbol cond
+repeat: REPEAT stmtlist UNTIL controlSymbol cond
 		{
 			// Create a new repeat statement node
 			$$ = new lp::RepeatStmt($5, $2);
@@ -419,7 +431,7 @@ repeat: REPEAT stmt UNTIL controlSymbol cond
 		}
 ;
 	/*  NEW in Compiler */
-for: FOR VARIABLE FROM exp UNTIL exp STEP exp DO controlSymbol stmt END_FOR
+for: FOR VARIABLE FROM exp UNTIL exp STEP exp DO controlSymbol stmtlist END_FOR
 		{
 			// Create a new for statement node
 			$$ = new lp::ForStmt($2, $4, $6, $8, $11);
@@ -434,6 +446,20 @@ cond: 	LPAREN exp RPAREN
 		}
 ;
 
+	/*  NEW in Compiler */
+clear: CLEAN SEMICOLON
+		{
+			// Create a new clear statement node
+			$$ = new lp::ClearStmt();
+		}
+;
+	/*  NEW in Compiler */
+place: PLACE LPAREN exp COMMA exp RPAREN SEMICOLON
+		{
+			// Create a new place node
+			$$ = new lp::PlaceStmt($3, $5);
+		}
+;
 
 asgn:   VARIABLE ASSIGNMENT exp 
 		{ 

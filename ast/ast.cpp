@@ -1454,7 +1454,26 @@ void lp::PrintStmt::evaluate()
 				if (!str.empty() && str[0] == '\'' && str[str.length() -1] == '\'') {
 					str = str.substr(1, str.size() - 2);
 				}
-				std::cout << str << std::endl;
+				for(std::size_t i = 0; i < str.size(); i++)
+				{
+					if (str[i] == '\\')
+					{
+						if (str[i+1] == 'n')
+						{
+							std::cout << std::endl;
+							i++;
+						}
+						else if (str[i+1] == 't')
+						{
+							std::cout << "\t";
+							i++;
+						}
+						else
+							std::cout << str[i];
+					}
+					else
+						std::cout << str[i];
+				}
 				break;
 		case BOOL:
 			if (this->_exp->evaluateBool())
@@ -1590,14 +1609,25 @@ void lp::IfStmt::printAST()
 
   // Consequent
   std::cout << "\t";
-  this->_stmt1->printAST();
+  std::list<Statement*>::iterator stmtIter;
 
- // The alternative is printASTed if exists
-  if (this->_stmt2 != NULL)
-     {  
-       std::cout << "\t";
-	   this->_stmt2->printAST();
-     }
+  std::cout << "BlockStmt: "  << std::endl;
+
+  for (stmtIter = this->_stmts1->begin(); stmtIter != this->_stmts1->end(); stmtIter++) 
+  {
+	(*stmtIter)->printAST();
+  }
+
+  // Alternative
+  if (this->_stmts2 != NULL)
+  {
+	std::cout << "BlockStmt: "  << std::endl;
+
+	for (stmtIter = this->_stmts2->begin(); stmtIter != this->_stmts2->end(); stmtIter++) 
+	{
+		(*stmtIter)->printAST();
+	}
+  }
 
   std::cout << std::endl;
 }
@@ -1606,13 +1636,23 @@ void lp::IfStmt::printAST()
 void lp::IfStmt::evaluate() 
 {
    // If the condition is true,
-	if (this->_cond->evaluateBool() == true )
-     // the consequent is run 
-	  this->_stmt1->evaluate();
+	if (this->_cond->evaluateBool() == true){
+		std::list<Statement*>::iterator stmtIter;
 
+		for (stmtIter = this->_stmts1->begin(); stmtIter != this->_stmts1->end(); stmtIter++) 
+		{
+			(*stmtIter)->evaluate();
+		}
+	}
     // Otherwise, the alternative is run if exists
-	else if (this->_stmt2 != NULL)
-		  this->_stmt2->evaluate();
+	else if (this->_stmts2 != NULL){
+		std::list<Statement*>::iterator stmtIter;
+
+		for (stmtIter = this->_stmts2->begin(); stmtIter != this->_stmts2->end(); stmtIter++) 
+		{
+			(*stmtIter)->evaluate();
+		}
+	}
 }
 
 
@@ -1624,26 +1664,37 @@ void lp::IfStmt::evaluate()
 
 void lp::WhileStmt::printAST() 
 {
-  std::cout << "WhileStmt: "  << std::endl;
+  	std::cout << "WhileStmt: "  << std::endl;
   // Condition
-  std::cout << "\t";
-  this->_cond->printAST();
+	std::cout << "\t";
+	this->_cond->printAST();
 
   // Body of the while loop
-  std::cout << "\t";
-  this->_stmt->printAST();
+    std::list<Statement*>::iterator stmtIter;
 
-  std::cout << std::endl;
+	std::cout << "BlockStmt: "  << std::endl;
+
+	for (stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++) 
+	{
+		(*stmtIter)->printAST();
+	}
+
+ 	std::cout << std::endl;
 }
 
 
 void lp::WhileStmt::evaluate() 
 {
   // While the condition is true. the body is run 
-  while (this->_cond->evaluateBool() == true)
-  {	
-	  this->_stmt->evaluate();
-  }
+	while (this->_cond->evaluateBool() == true)
+	{	
+		std::list<Statement*>::iterator stmtIter;
+
+		for (stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++) 
+		{
+			(*stmtIter)->evaluate();
+		}
+	}
 
 }
 
@@ -1656,7 +1707,14 @@ void lp::RepeatStmt::printAST()
   std::cout << "RepeatStmt: "  << std::endl;
   // Body of the repeat loop
   std::cout << "\t";
-  this->_stmt->printAST();
+  std::list<Statement*>::iterator stmtIter;
+
+  std::cout << "BlockStmt: "  << std::endl;
+
+  for (stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++) 
+  {
+	 (*stmtIter)->printAST();
+  }
 
   // Condition
   std::cout << "\t";
@@ -1670,13 +1728,19 @@ void lp::RepeatStmt::evaluate()
   // Repeat the body until the condition is true
   do
   {
-	  this->_stmt->evaluate();
+	std::list<Statement*>::iterator stmtIter;
+
+	for (stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++) 
+	{
+	  (*stmtIter)->evaluate();
+	}
   }
   while (this->_cond->evaluateBool() == false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
+// NEW in Compiler
 
 void lp::ForStmt::printAST() 
 {
@@ -1696,19 +1760,144 @@ void lp::ForStmt::printAST()
 
   	// Body of the for loop
   	std::cout << "\t";
-  	this->_stmt->printAST();
+  	std::list<Statement*>::iterator stmtIter;
+
+	std::cout << "BlockStmt: "  << std::endl;
+	
+  	for (stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++)
+	{
+		(*stmtIter)->printAST();
+	}
 
   	std::cout << std::endl;
 }
 
 void lp::ForStmt::evaluate() 
 {
-	for(this->_exp1->evaluateNumber(); this->_exp2->evaluateNumber(); this->_step->evaluateNumber())
+	if(this->_exp1->getType() == NUMBER and this->_exp2->getType() == NUMBER and this->_step->getType() == NUMBER)
 	{
-		this->_stmt->evaluate();
+		if(table.lookupSymbol(this->_id) == true)
+		{
+			if(table.getSymbol(this->_id)->getToken() == VARIABLE)
+			{
+				table.eraseSymbol(this->_id);
+				lp::NumericVariable *v = new lp::NumericVariable(this->_id, VARIABLE, NUMBER, this->_exp1->evaluateNumber());
+				table.installSymbol(v);
+			}
+		}
+		if(this->_step == NULL)
+		{
+			this->_step = new NumberNode(1);
+			
+			if(this->_exp1->evaluateNumber() > this->_exp2->evaluateNumber())
+			{
+				this->_step = new NumberNode(-1);
+			}
+		} else {
+
+			if((this->_step->evaluateNumber() > 0 && this->_exp1->evaluateNumber() > this->_exp2->evaluateNumber()) || 
+				(this->_step->evaluateNumber() < 0 && this->_exp1->evaluateNumber() < this->_exp2->evaluateNumber()))
+			{
+				warning("For loop is infinite", this->_id);
+			}
+		}
+
+		// Get the initial value
+		double value1 = this->_exp1->evaluateNumber();
+		// Get the final value
+		double value2 = this->_exp2->evaluateNumber();
+		// Get the step
+		double value3 = this->_step->evaluateNumber();
+
+		// Get the identifier in the table of symbols as NumericVariable
+		lp::NumericVariable *v = (lp::NumericVariable *) table.getSymbol(this->_id);
+
+		if(v != NULL){
+			
+			// The step is not zero
+			if (value3 != 0){
+
+				// The step is positive
+				if (value1 < value2)
+				{
+					// The body is run
+					for (double i = value1; i <= value2; i += value3)
+					{
+						v->setValue(i);
+
+						std::list<Statement *>::iterator stmtIter;
+						for (stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++) 
+						{
+							(*stmtIter)->evaluate();
+						}
+					}
+				}
+				// The step is negative
+				else
+				{
+					// The body is run
+					for (double i = value1; i >= value2; i += value3)
+					{
+						v->setValue(i);
+
+						std::list<Statement *>::iterator stmtIter;
+						for (stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++) 
+						{
+							(*stmtIter)->evaluate();
+						}
+					}
+				}
+			}
+			else
+			{
+				warning("Runtime error: the step is zero in the for loop", "");
+			}
+		}
+	}else
+	{
+		warning("Runtime error: incompatible types for ", "For loop");
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NEW in Compiler
+
+void lp::ClearStmt::printAST() 
+{
+	std::cout << "ClearStmt: "  << std::endl;
+	std::cout << "\t";
+}
+
+void lp::ClearStmt::evaluate() 
+{
+  // Clear the screen
+	std::cout << CLEAR_SCREEN;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NEW in Compiler
+
+void lp::PlaceStmt::printAST() 
+{
+	std::cout << "PlaceStmt: "  << std::endl;
+	std::cout << "\t";
+	this->_exp1->printAST();
+	std::cout << "\t";
+	this->_exp2->printAST();
+}
+
+void lp::PlaceStmt::evaluate() 
+{
+  // Place the cursor in the position (x,y)
+	int x, y;
+
+	x = this->_exp1->evaluateNumber();
+	y = this->_exp2->evaluateNumber();
+
+	std::cout << PLACE(x, y);
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
