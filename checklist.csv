@@ -1,7 +1,7 @@
 TAREAS          ,ESTADO
 leer            ,y
 leer_cadena     ,y
-escribir        ,y(falta escribir cadena)
+escribir        ,y
 si              ,y
 entonces        ,y
 si_no           ,y
@@ -56,5 +56,5 @@ asignacion expresion logica ,y
 sentencia control si ,y
 sentencia control mientras ,y
 sentencia control repetir ,y
-sentencia control para ,
+sentencia control para ,y
 sentencia control casos ,

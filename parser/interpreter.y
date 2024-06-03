@@ -485,10 +485,10 @@ asgn:   VARIABLE ASSIGNMENT exp
 		}
 ;
 
-print:  PRINT LPAREN exp RPAREN
+print:  PRINT exp
 		{
 			// Create a new print node
-			 $$ = new lp::PrintStmt($3);
+			 $$ = new lp::PrintStmt($2);
 		}
 ;	
 
@@ -509,6 +509,12 @@ read_string:  READ_STRING LPAREN VARIABLE RPAREN
 		{
 			// Create a new read node
 			 $$ = new lp::ReadStringStmt($3);
+		}
+
+	  /* NEW rule in Compiler*/
+	| READ_STRING LPAREN CONSTANT RPAREN
+		{   
+ 			execerror("Semantic error in \"read_string statement\": it is not allowed to modify a constant ",$3);
 		}
 
 

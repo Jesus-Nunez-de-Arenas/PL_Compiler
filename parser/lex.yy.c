@@ -935,14 +935,17 @@ YY_RULE_SETUP
 				 strdup() function returns a pointer to a new string 
 				 which  is a duplicate of the string yytext
 				*/
-				yylval.string =  strdup(yytext);
+				
+				std::string str(yytext);
+				str = str.substr(1, str.length() - 2); // Remove quotes from the beginning and end
+				yylval.string =  strdup(str.c_str());
 
 				return STRING;
 			}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(ERROR):
-#line 212 "interpreter.l"
+#line 215 "interpreter.l"
 { /* The interpreter finishes when finds the end of file character */
 		/*  PLACE(24,10);
 	  	  std::cout <<  BICYAN;
@@ -956,7 +959,7 @@ case YY_STATE_EOF(ERROR):
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 223 "interpreter.l"
+#line 226 "interpreter.l"
 { 	
 									/* Any other character */
 									/* MODIFIIED in example 3 */
@@ -972,7 +975,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 236 "interpreter.l"
+#line 239 "interpreter.l"
 { /* MODIFIED in examples 5, 7, 15 */
 								  /* NEW in example 3 */
 								  /* 
@@ -984,7 +987,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 245 "interpreter.l"
+#line 248 "interpreter.l"
 { 
 								/* NEW in example 3 */
 								/* Rewind one position */
@@ -999,10 +1002,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 256 "interpreter.l"
+#line 259 "interpreter.l"
 ECHO;
 	YY_BREAK
-#line 1006 "lex.yy.c"
+#line 1009 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1890,6 +1893,6 @@ int main()
 	return 0;
 	}
 #endif
-#line 256 "interpreter.l"
+#line 259 "interpreter.l"
 
 

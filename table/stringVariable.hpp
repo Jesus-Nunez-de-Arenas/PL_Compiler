@@ -2,7 +2,7 @@
 	\file    StringVariable.hpp
 	\brief   Declaration of StringVariable class
 	\author  
-	\date    2017-12-1
+	\date    2024-05-20
 	\version 1.0
 */
 

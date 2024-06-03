@@ -203,7 +203,10 @@ STRING \'(\\.|[^\\'])*\'
 				 strdup() function returns a pointer to a new string 
 				 which  is a duplicate of the string yytext
 				*/
-				yylval.string =  strdup(yytext);
+				
+				std::string str(yytext);
+				str = str.substr(1, str.length() - 2); // Remove quotes from the beginning and end
+				yylval.string =  strdup(str.c_str());
 
 				return STRING;
 			}

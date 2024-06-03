@@ -1261,9 +1261,6 @@ void lp::AssignmentStmt::evaluate()
 
 					// Insert the variable in the table of symbols as StringVariable 
 					// with the type STRING and the value 
-					
-					// Install the value without the quotes
-					value = value.substr(1, value.size()-2);
 
 					lp::StringVariable *v = new lp::StringVariable(this->_id,
 											VARIABLE,STRING,value);
@@ -1272,6 +1269,7 @@ void lp::AssignmentStmt::evaluate()
 					table.installSymbol(v);
 				}
 			}
+			break;
 
 			case BOOL:
 			{
@@ -1462,10 +1460,13 @@ void lp::PrintStmt::evaluate()
 						{
 							std::cout << std::endl;
 							i++;
-						}
-						else if (str[i+1] == 't')
+						}else if (str[i+1] == 't')
 						{
 							std::cout << "\t";
+							i++;
+						}else if(str[i+1] == '\\')
+						{
+							std::cout << str[i+1];
 							i++;
 						}
 						else
@@ -1813,7 +1814,6 @@ void lp::ForStmt::evaluate()
 		lp::NumericVariable *v = (lp::NumericVariable *) table.getSymbol(this->_id);
 
 		if(v != NULL){
-			
 			// The step is not zero
 			if (value3 != 0){
 

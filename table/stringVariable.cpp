@@ -2,7 +2,7 @@
 	\file    StringVariable.cpp
 	\brief   Code of some functions of StringVariable class
 	\author 
-	\date    2017-10-19
+	\date    2024-05-20
 	\version 1.0
 */
 
