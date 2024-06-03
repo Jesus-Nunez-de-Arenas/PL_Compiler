@@ -1,0 +1,250 @@
+<<
+ Fichero de control de tareas del trabajo de prácticas de Procesadores de Lenguajes							
+										
+ Se debe comprobar que no se ha olvidado ninguna tarea.
+ 											
+ Nota: este documento se puede modificar para mejorarlo.
+>>
+
+														CONTROL		FECHA
+-------------------------------------------------------------------------------------
+NO EXISTEN CONFLICTOS EN LAS REGLAS DE PRODUCCIÓN:		[x]
+-------------------------------------------------------------------------------------
+
+									CONTROL		FECHA
+-------------------------------------------------------------------------------------
+PALABRAS RESERVADAS:				[x]	
+--------------------------------------------------------------------------------------
+	#o 							[x]
+	#y 							[x]
+	#no							[x]
+
+	verdadero					[x]
+	falso						[x]
+
+	leer						[x]
+	leer_cadena					[x]
+
+	escribir					[x]
+	
+	SENTENCIA CONDICIONAL:			[x]
+		si						[x]
+		entonces				[x]
+		si_no					[x]
+		fin_si					[x]
+
+	SENTENCIA DE BUCLE MIENTRAS:		[x]
+		mientras					[x]
+		hacer						[x]
+		fin_mientrase				[x]
+
+	SENTENCIA DE BUCLE REPETIR:		[x]
+		repetir					[x]
+		hasta					[x]
+
+	SENTENCIA DE BUCLE PARA:		[x]
+		para						[x]
+		desde					[x]
+		hasta					[x]
+		paso					[x]
+		hacer					[x]
+		fin_para				[x]
+
+	SENTENCIA DE SELECCIÓN MÚLTIPLE:[x]
+		casos					[x]
+		valor					[x]
+		defecto					[x]
+		fin_casos				[x]
+
+	MACROS:							[x]
+		borrar_pantalla			[x]
+		lugar					[x]
+
+	NO SE DISTINGUE ENTRE MAYÚSCULAS Y MINÚSCULAS	[x]
+	LAS PALABRAS RESERVADAS NO SON IDENTIFICADORES	[x]
+
+										CONTROL		FECHA
+-------------------------------------------------------------------------------------
+IDENTIFICADORES:						[x]					
+-------------------------------------------------------------------------------------
+	COMPUESTOS POR LETRAS, DIGITOS Y SUBRAYADOS 	[x]
+	COMIENZA POR UNA LETRA							[x]
+	NO TERMINAN EN SUBRAYADO						[x]
+	NO CONTIENEN DOS SUBRAYADOS SEGUIDOS			[x]
+	NO SE DISTINGUE ENTRE MAYÚSCULAS Y MINÚSCULAS	[x]
+
+
+											CONTROL		FECHA
+-------------------------------------------------------------------------------------
+NÚMERO:										[x]	
+-------------------------------------------------------------------------------------
+	ENTEROS 							[x]
+	REALES DE PUNTO FIJO				[x]
+	REALES NOTACION CIENTÍFICA			[ ]
+
+	TODOS SON TRATADOS COMO NÚMERO		[x]
+
+											CONTROL		FECHA
+-------------------------------------------------------------------------------------
+CADENA:										[x]		
+-------------------------------------------------------------------------------------
+	CARACTERES DELIMITADOS POR COMILLAS SIMPLES 	[x]
+	INCLUYE COMILLA SIMPLE CON  \'					[x]
+	COMILLAS EXTERIORES NO SON PARTE DE LA CADENA 	[x]
+	INTERPRETA \n  \t  \'							[x]
+
+										CONTROL		FECHA
+-------------------------------------------------------------------------------------
+OPERADORES:								[ ]					
+-------------------------------------------------------------------------------------
+	NUMÉRICOS							[x]
+		ASIGNACION :=				[x]
+		SUMA +						[x]
+			UNARIO +2				[x]
+			BINARIO 2+3				[x]
+		RESTA -						[x]
+			UNARIO -2				[x]
+			BINARIO 2-3				[x]
+		PRODUCTO *					[x]
+		DIVISION /					[x]
+		DIVISION_ENTERA //			[x]
+		MODULO %					[x]
+		POTENCIA **					[x]
+
+	ALFANUMÉRICOS						[x]
+		CONCATENACION ||			[x]
+
+	RELACIONALES CON NÚMEROS Y CADENAS	[ ]
+		MENOR QUE <					[ ]
+		MENOR O IGUAL QUE <=		[ ]
+		MAYOR QUE >					[ ]
+		MAYOR O IGUAL QUE >=		[ ]
+		DISTINTO DE <>				[ ]
+
+	LÓGICOS								[x]
+		DISYUNCIÓN #o				[x]
+		CONJUNCIÓN #y				[x]
+		NEGACIÓN   #no				[x]
+
+										CONTROL		FECHA
+-------------------------------------------------------------------------------------
+OTROS:									[ ]								
+-------------------------------------------------------------------------------------
+	COMENTARIOS							[ ]
+		VARIAS LINEAS: DELIMITADORES << ... >> 	[ ]
+		UNA LÍNEA: DELIMITADOR !!				[ ]
+
+	FIN DE LINEA ;							[x]
+
+										CONTROL		FECHA
+-------------------------------------------------------------------------------------
+SENTENCIAS DE CONTROL:					[x]						
+-------------------------------------------------------------------------------------
+	ASIGNACIÓN									[x]
+		IDENTIFICADOR := EXPR NUMÉRICA		[x]
+		IDENTIFICADOR := EXPR ALFANUMÉRICA	[x]
+		IDENTIFICADOR := EXPR LÓGICA	    [x]
+
+	LECTURA										[x]
+		leer(identificador)					[x]
+		leer_cadena(identificador)			[x]
+
+	ESCRITURA									[x]
+		escribir						    [x]
+
+	SENTENCIAS DE CONTROL						[x]
+		CONDICIONAL SIMPLE					[x]
+			si condición
+				entonces lista de sentencias
+			fin_si
+
+		CONDICIONAL COMPUESTA				[x]
+			si condición
+				entonces lista de sentencias
+				si_no lista de sentencias
+			fin_si
+
+		BUCLE "mientras"						[x]
+			mientras condición do
+					lista de sentencias
+			fin_mientras
+
+		BUCLE "repetir"						[x]
+			repetir
+				lista de sentencias
+			hasta condición
+
+		BUCLE "para"							[x]
+			para identificador
+				desde expresión numérica 1
+				hasta expresión numérica 2
+				[paso expresión numérica 3]
+				do
+					lista de sentencias
+			fin_para
+
+		SELECCIÓN MÚLTIPLE					[x]
+		casos (expresión)
+			valor v1:   … 
+			valor v2:   … 
+					…
+			defecto: …
+		fin_casos
+
+													CONTROL		FECHA
+-------------------------------------------------------------------------------------
+COMANDOS ESPECIALES:								[x]	
+--------------------------------------------------------------------------------------
+	borrar_pantalla										[x]
+	lugar (expresión numérica 1, expresión numérica 2)	[x]
+
+
+												CONTROL		FECHA
+-------------------------------------------------------------------------------------
+OBSERVACIONES:									[ ]		
+-------------------------------------------------------------------------------------
+	CAMBIO DE TIPO DINÁMICO	DE LA VARIABLE		[ ]
+
+
+												CONTROL		FECHA
+-------------------------------------------------------------------------------------
+CONTROL DE ERRORES:								[ ]	
+-------------------------------------------------------------------------------------
+LÉXICOS											[ ]
+	IDENTIFICADOR MAL ESCRITO 				[ ]
+	NÚMERO MAL ESCRITO 						[ ]
+	SIMBOLO NO PERMITIDO					[ ]
+	OTROS							        [ ]
+
+SINTÁCTICOS										[ ]
+	SENTENCIA DE CONTROL MAL ESCRITA		[ ]
+	SENTENCIA CON ARGUMENTOS INCOMPATIBLES 	[ ]
+	OTROS						    		[ ]
+
+SEMÁNTICOS										[ ]
+	ARGUMENTOS DE FUNCIONES INCOMPATIBLES  	[ ]
+	OPERANDOS DE EXPRESIONES INCOMPATIBLES 	[ ]
+
+DE EJECUCIÓN									[ ]
+	SENTENCIA "PARA" CON BUCLE INFINITO		[ ]
+	FICHERO INEXISTENTE						[ ]
+	FICHERO CON EXTENSIÓN INCORRECTA		[ ]
+	OTROS									[ ]
+
+											CONTROL		FECHA
+-------------------------------------------------------------------------------------
+MODOS DE EJECUCIÓN:							[x]	
+-----------------------------------------------------------------------------------
+	INTERACTIVO							[x]
+	DESDE FICHERO						[x]
+
+
+											CONTROL				FECHA
+-------------------------------------------------------------------------------------
+OPCIONALES:									[ ]	
+-------------------------------------------------------------------------------------
+	OPERADORES UNARIOS (++, --, etc.)				[ ]
+	OPERADORES ARITMÉTICOS Y ASIGNACIÓN (+:=,-:=)	[ ]
+	OPERADOR ALTERNATIVA (?)						[ ]
+	OTROS: (ejemplo: hacer ... mientras)			[x]
+

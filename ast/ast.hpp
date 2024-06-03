@@ -1951,6 +1951,150 @@ class ForStmt : public Statement
 // NEW in Compiler
 
 /*!
+	\class DefaultStmt
+	\brief Definition of atributes and methods of DefaultStmt class
+	\note  DefaultStmt Class publicly inherits from Statement class 
+		   and adds its own printAST and evaluate functions
+*/
+
+class DefaultStmt : public Statement 
+{
+  private:
+	std::list<Statement*> *_stmts; //!< Statement of the body of the default case
+
+  public:
+/*!
+	\brief Constructor of DefaultStmt
+	\param statement: Statement of the body of the default case
+	\post  A new DefaultStmt is created with the parameter
+*/
+  DefaultStmt(std::list<Statement*> *stmts): _stmts(stmts)
+	{
+		// Empty
+	}
+
+/*!
+	\brief   Print the AST for DefaultStmt
+	\return  void
+	\sa		   evaluate
+*/
+  void printAST();
+
+/*!
+	\brief   Evaluate the DefaultStmt
+	\return  void
+	\sa	   	 printAST
+*/
+  void evaluate();
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NEW in Compiler
+
+/*!
+	\class ValueStmt
+	\brief Definition of atributes and methods of ValueStmt class
+	\note  ValueStmt Class publicly inherits from Statement class 
+		   and adds its own printAST and evaluate functions
+*/
+
+class ValueStmt : public Statement 
+{
+  private:
+	ExpNode *_exp; //!< Expression of the value statement
+	std::list<Statement*> *_stmts; //!< Statement of the body of the value case
+
+  public:
+/*!
+	\brief Constructor of ValueStmt
+	\param expression: pointer to ExpNode, expression of the value statement
+	\param statement: pointer to Statement, statement of the body of the value case
+	\post  A new ValueStmt is created with the parameters
+*/
+  ValueStmt(ExpNode *exp, std::list<Statement*> *stmts): _exp(exp), _stmts(stmts)
+	{
+		// Empty
+	}
+
+/*!
+	\brief   Get the expression of the ValueStmt
+	\return  ExpNode
+*/
+	inline ExpNode *getExp() { return _exp; }
+
+/*!
+	\brief   Print the AST for ValueStmt
+	\return  void
+	\sa		   evaluate
+*/
+  void printAST();
+
+/*!
+	\brief   Evaluate the ValueStmt
+	\return  void
+	\sa	   	 printAST
+*/
+  void evaluate();
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NEW in Compiler
+
+/*!
+	\class CaseStmt
+	\brief Definition of atributes and methods of CaseStmt class
+	\note  CaseStmt Class publicly inherits from Statement class 
+		   and adds its own printAST and evaluate functions
+*/
+
+class CaseStmt : public Statement 
+{
+  private:
+	ExpNode *_exp; //!< Expression of the case statement
+	std::list<ValueStmt*> *_stmts; //!< Statement of the body of the case
+	DefaultStmt *_default; //!< Statement of the default case
+
+  public:
+/*!
+	\brief Constructor of CaseStmt
+	\param expression: pointer to ExpNode, expression of the case statement
+	\param valueStmts: pointer to list of ValueStmt, statement of the body of the case
+	\param defaultStmt: pointer to DefaultStmt, statement of the default case
+	\post  A new CaseStmt is created with the parameters
+*/
+  CaseStmt(ExpNode *exp, std::list<ValueStmt*> *stmts): _exp(exp), _stmts(stmts), _default(NULL)
+	{
+		// Empty
+	}
+
+  CaseStmt(ExpNode *exp, std::list<ValueStmt*> *stmts, DefaultStmt *def): _exp(exp), _stmts(stmts), _default(def)
+	{
+		// Empty
+	}
+
+/*!
+	\brief   Print the AST for CaseStmt
+	\return  void
+	\sa		   evaluate
+*/
+  void printAST();
+
+/*!
+	\brief   Evaluate the CaseStmt
+	\return  void
+	\sa	   	 printAST
+*/
+  void evaluate();
+};
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NEW in Compiler
+
+/*!
 	\class  ClearStmt
 	\brief  Definition of atributes and methods of ClearStmt class
 	\note   ClearStmt Class publicly inherits from Statement class 

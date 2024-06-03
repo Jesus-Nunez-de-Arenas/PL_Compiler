@@ -147,6 +147,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
   std::list<lp::Statement *> *stmts; /* NEW in example 16 */
   lp::Statement *st;				 /* NEW in example 16 */
   lp::AST *prog;					 /* NEW in example 16 */
+  std::list<lp::ValueStmt *> *values; /* NEW in Compiler */
 }
 
 /* Type of the non-terminal symbols */
@@ -157,9 +158,11 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 %type <parameters> listOfExp  restOfListOfExp
 
 %type <stmts> stmtlist
+// NEW in Compiler
+%type <values> values
 
 // New in example 17: if, while, block
-%type <st> stmt asgn print read if while block for do repeat read_string clear place
+%type <st> stmt asgn print read if while block for do repeat read_string clear place case default
 
 %type <prog> program
 
@@ -176,7 +179,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 %token PRINT READ IF ELSE WHILE
 
 /* NEW in Compiler */
-%token READ_STRING THEN END_IF DO END_WHILE REPEAT UNTIL FOR END_FOR FROM STEP CASE VALUE DEFAULT END_CASE CLEAN PLACE
+%token READ_STRING THEN END_IF DO END_WHILE REPEAT UNTIL FOR END_FOR FROM STEP CASE VALUE DEFAULT END_CASE CLEAN PLACE COLON
 
 /* NEW in example 17 */
 %token LETFCURLYBRACKET RIGHTCURLYBRACKET
@@ -312,34 +315,46 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 		// Default action
 		// $$ = $1;
 	  }
+	/*  NEW in Compiler */
 	| read_string SEMICOLON
 	  {
 		// Default action
 		// $$ = $1;
 	  }
 	/*  NEW in example 17 */
+	/*  Modified in Compiler  */
 	| if 
 	 {
 		// Default action
 		// $$ = $1;
 	 }
 	/*  NEW in example 17 */
+	/*  Modified in Compiler  */
 	| while 
 	 {
 		// Default action
 		// $$ = $1;
 	 }
+	/*  NEW in Compiler */
 	| for 
 	 {
 		// Default action
 		// $$ = $1;
 	 }
+	/*  NEW in Compiler */
 	| do
 	 {
 		// Default action
 		// $$ = $1;
 	 }
+	/*  NEW in Compiler */
 	| repeat
+	 {
+		// Default action
+		// $$ = $1;
+	 }
+	/*  NEW in Compiler */
+	| case
 	 {
 		// Default action
 		// $$ = $1;
@@ -439,6 +454,40 @@ for: FOR VARIABLE FROM exp UNTIL exp STEP exp DO controlSymbol stmtlist END_FOR
 			control--;
 		}
 ;
+
+case: CASE controlSymbol LPAREN exp RPAREN values default END_CASE
+		{
+			// Create a new case statement node
+			$$ = new lp::CaseStmt($4, (std::list<lp::ValueStmt *> *) $6, (lp::DefaultStmt *) $7);
+
+			control--;
+		}
+
+values: VALUE exp COLON stmtlist
+		{
+			// Create a new values statement node
+			std::list<lp::ValueStmt *> * stmts = new std::list<lp::ValueStmt *>();
+			stmts->push_back(new lp::ValueStmt($2, $4));
+			$$ = stmts;
+		}
+		| values VALUE exp COLON stmtlist
+		{
+			// Create a new values statement node
+			$$ = $1;
+			$$->push_back(new lp::ValueStmt($3, $5));
+		}
+
+default: DEFAULT COLON stmtlist
+		{
+			// Create a new default statement node
+			$$ = new lp::DefaultStmt($3);
+		}
+		| /* Empty */
+		{
+			// Create a new default statement node
+			$$ = new lp::DefaultStmt(new std::list<lp::Statement*>());
+		}
+
 	/*  NEW in example 17 */
 cond: 	LPAREN exp RPAREN
 		{ 

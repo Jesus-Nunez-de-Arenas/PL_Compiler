@@ -1863,6 +1863,393 @@ void lp::ForStmt::evaluate()
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // NEW in Compiler
 
+void lp::DefaultStmt::printAST() 
+{
+	std::cout << "DefaultStmt: "  << std::endl;
+	std::cout << "\t";
+	std::list<Statement*>::iterator stmtIter;
+
+	std::cout << "BlockStmt: "  << std::endl;
+
+	for (stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++) 
+	{
+		(*stmtIter)->printAST();
+	}
+	std::cout << std::endl;
+}
+
+void lp::DefaultStmt::evaluate() 
+{
+	std::list<Statement*>::iterator stmtIter;
+
+	for (stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++) 
+	{
+		(*stmtIter)->evaluate();
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NEW in Compiler
+
+void lp::ValueStmt::printAST() 
+{
+	std::cout << "ValueStmt: "  << std::endl;
+	std::cout << "\t";
+	switch(this->getExp()->getType())
+	{
+		case NUMBER:
+		{
+			std::cout << this->getExp()->evaluateNumber() << std::endl;
+			break;
+		}
+			
+		case STRING:
+		{
+			std::cout << this->getExp()->evaluateString() << std::endl;
+			break;
+		}
+			
+		case BOOL:
+		{
+			if (this->getExp()->evaluateBool())
+				std::cout << "verdadero" << std::endl;
+			else
+				std::cout << "falso" << std::endl;
+			break;
+		}
+			
+		case CONSTANT:
+		{
+			std::cout << this->getExp()->evaluateNumber() << std::endl;
+			break;
+		}
+			
+		case VARIABLE:
+		{
+			VariableNode *v = (VariableNode *) this->_exp;
+
+			switch(v->getType())
+			{
+				case NUMBER:
+					std::cout << v->evaluateNumber() << std::endl;
+					break;
+				case STRING:
+					std::cout << v->evaluateString() << std::endl;
+					break;
+				case BOOL:
+					if (v->evaluateBool())
+						std::cout << "verdadero" << std::endl;
+					else
+						std::cout << "falso" << std::endl;
+					break;
+				default:
+					warning("Runtime error: incompatible type for ", "Value");
+			}
+			break;
+		}
+			
+		default:
+		{
+			warning("Runtime error: incompatible type for ", "Value");
+		}	
+	}
+
+	std::list<Statement*>::iterator stmtIter;
+
+	std::cout << "BlockStmt: "  << std::endl;
+
+	for (stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++) 
+	{
+		std::cout << "\t";
+		(*stmtIter)->printAST();
+	}
+
+	std::cout << std::endl;
+}
+
+void lp::ValueStmt::evaluate() 
+{
+	std::list<Statement*>::iterator stmtIter;
+
+	for (stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++) 
+	{
+		(*stmtIter)->evaluate();
+	}
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NEW in Compiler
+
+void lp::CaseStmt::printAST() 
+{
+	std::cout << "CaseStmt: "  << std::endl;
+	std::cout << "\t";
+	this->_exp->printAST();
+	std::cout << "\t";
+	std::list<ValueStmt*>::iterator stmtIter;
+
+	std::cout << "BlockStmt: "  << std::endl;
+
+	for (stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++) 
+	{
+		(*stmtIter)->printAST();
+		std::cout << std::endl;
+	}
+
+	if(this->_default != NULL)
+	{
+		std::cout << "DefaultStmt: "  << std::endl;
+		std::cout << "\t";
+		this->_default->printAST();
+		std::cout << std::endl;
+	}else
+	{
+		std::cout << "No DefaultStmt"  << std::endl;
+	}
+
+	std::cout << std::endl;
+}
+
+void lp::CaseStmt::evaluate()
+{
+	bool finish = false, error = false;
+
+	switch(this->_exp->getType())
+	{
+		case NUMBER:
+		{
+			double value = this->_exp->evaluateNumber();
+			std::list<ValueStmt*>::iterator stmtIter;
+
+			for (stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++) 
+			{
+				if((*stmtIter)->getExp()->getType() == NUMBER)
+				{
+					if((*stmtIter)->getExp()->evaluateNumber() == value)
+					{
+						(*stmtIter)->evaluate();
+						finish = true;
+						break;
+					}
+				}
+				else
+				{
+					warning("Runtime error: incompatible type for ", "Case");
+					error = true;
+					break;
+				}
+			}
+
+			if(!finish && !error)
+			{
+				if(this->_default != NULL)
+				{
+					this->_default->evaluate();
+					finish = true;
+				}
+			}
+			break;
+		}
+		
+		case STRING:
+		{
+			std::string value = this->_exp->evaluateString();
+			std::list<ValueStmt*>::iterator stmtIter;
+
+			for (stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++) 
+			{
+				if((*stmtIter)->getExp()->getType() == STRING)
+				{
+					if((*stmtIter)->getExp()->evaluateString() == value)
+					{
+						(*stmtIter)->evaluate();
+						finish = true;
+						break;
+					}
+				}
+				else
+				{
+					warning("Runtime error: incompatible type for ", "Case");
+					error = true;
+					break;
+				}
+			}
+
+			if(!finish && !error)
+			{
+				if(this->_default != NULL)
+				{
+					this->_default->evaluate();
+					finish = true;
+				}
+			}
+			break;
+		}
+		case BOOL:
+		{
+			bool value = this->_exp->evaluateBool();
+			std::list<ValueStmt*>::iterator stmtIter;
+
+			for (stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++) 
+			{
+				if((*stmtIter)->getExp()->getType() == BOOL)
+				{
+					if((*stmtIter)->getExp()->evaluateBool() == value)
+					{
+						(*stmtIter)->evaluate();
+						finish = true;
+						break;
+					}
+				}
+				else
+				{
+					warning("Runtime error: incompatible type for ", "Case");
+					error = true;
+					break;
+				}
+			}
+
+			if(!finish && !error)
+			{
+				if(this->_default != NULL)
+				{
+					this->_default->evaluate();
+					finish = true;
+				}
+			}
+			break;
+		}
+		case VARIABLE:
+		{
+			VariableNode *v = (VariableNode *) this->_exp;
+			std::list<ValueStmt*>::iterator stmtIter;
+
+			for(stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++)
+			{
+				if(v->getType() == NUMBER)
+				{
+					if((*stmtIter)->getExp()->getType() == NUMBER)
+					{
+						if((*stmtIter)->getExp()->evaluateNumber() == v->evaluateNumber())
+						{
+							(*stmtIter)->evaluate();
+							finish = true;
+							break;
+						}
+					}
+				}else if(v->getType() == STRING)
+				{
+					if((*stmtIter)->getExp()->getType() == STRING)
+					{
+						if((*stmtIter)->getExp()->evaluateString() == v->evaluateString())
+						{
+							(*stmtIter)->evaluate();
+							finish = true;
+							break;
+						}
+					}
+				}else if(v->getType() == BOOL)
+				{
+					if((*stmtIter)->getExp()->getType() == BOOL)
+					{
+						if((*stmtIter)->getExp()->evaluateBool() == v->evaluateBool())
+						{
+							(*stmtIter)->evaluate();
+							finish = true;
+							break;
+						}
+					}
+				}
+				else{
+					warning("Runtime error: incompatible type for ", "Case");
+					error = true;
+					break;
+				}
+
+			}
+
+			if(!finish && !error)
+			{
+				if(this->_default != NULL)
+				{
+					this->_default->evaluate();
+					finish = true;
+				}
+			}
+		}
+		case CONSTANT:
+		{
+			ConstantNode *c = (ConstantNode *) this->_exp;
+			std::list<ValueStmt*>::iterator stmtIter;
+
+			for(stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++)
+			{
+				if(c->getType() == NUMBER)
+				{
+					if((*stmtIter)->getExp()->getType() == NUMBER)
+					{
+						if((*stmtIter)->getExp()->evaluateNumber() == c->evaluateNumber())
+						{
+							(*stmtIter)->evaluate();
+							finish = true;
+							break;
+						}
+					}
+				}else if(c->getType() == STRING)
+				{
+					if((*stmtIter)->getExp()->getType() == STRING)
+					{
+						if((*stmtIter)->getExp()->evaluateString() == c->evaluateString())
+						{
+							(*stmtIter)->evaluate();
+							finish = true;
+							break;
+						}
+					}
+				}else if(c->getType() == BOOL)
+				{
+					if((*stmtIter)->getExp()->getType() == BOOL)
+					{
+						if((*stmtIter)->getExp()->evaluateBool() == c->evaluateBool())
+						{
+							(*stmtIter)->evaluate();
+							finish = true;
+							break;
+						}
+					}
+				}else
+				{
+					warning("Runtime error: incompatible type for ", "Case");
+					error = true;
+					break;
+				}
+
+			}
+
+			if(!finish && !error)
+			{
+				if(this->_default != NULL)
+				{
+					this->_default->evaluate();
+					finish = true;
+				}
+			}
+		}
+		default:
+		{
+			warning("Runtime error: incompatible type for ", "Case");
+			break;
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NEW in Compiler
+
 void lp::ClearStmt::printAST() 
 {
 	std::cout << "ClearStmt: "  << std::endl;
