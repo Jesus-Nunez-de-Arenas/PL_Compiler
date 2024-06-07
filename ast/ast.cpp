@@ -846,11 +846,22 @@ bool lp::GreaterThanNode::evaluateBool()
 
 	if (this->getType() == BOOL)
 	{
-		double leftNumber, rightNumber;
-		leftNumber = this->_left->evaluateNumber();
-		rightNumber = this->_right->evaluateNumber();
+		if(this->_left->getType() == STRING && this->_right->getType() == STRING)
+		{
+			std::string leftString, rightString;
+			leftString = this->_left->evaluateString();
+			rightString = this->_right->evaluateString();
 
-		result = (leftNumber > rightNumber);
+			result = (leftString > rightString);
+		}
+		else if(this->_left->getType() == NUMBER && this->_right->getType() == NUMBER)
+		{
+			double leftNumber, rightNumber;
+			leftNumber = this->_left->evaluateNumber();
+			rightNumber = this->_right->evaluateNumber();
+
+			result = (leftNumber > rightNumber);
+		}
 	}
 	else
 	{
@@ -879,11 +890,22 @@ bool lp::GreaterOrEqualNode::evaluateBool()
 
 	if (this->getType() == BOOL)
 	{
-		double leftNumber, rightNumber;
-		leftNumber = this->_left->evaluateNumber();
-		rightNumber = this->_right->evaluateNumber();
+		if(this->_left->getType() == STRING && this->_right->getType() == STRING)
+		{
+			std::string leftString, rightString;
+			leftString = this->_left->evaluateString();
+			rightString = this->_right->evaluateString();
 
-		result = (leftNumber >= rightNumber);
+			result = (leftString >= rightString);
+		}
+		else if(this->_left->getType() == NUMBER && this->_right->getType() == NUMBER)
+		{
+			double leftNumber, rightNumber;
+			leftNumber = this->_left->evaluateNumber();
+			rightNumber = this->_right->evaluateNumber();
+
+			result = (leftNumber >= rightNumber);
+		}
 	}
 	else
 	{
@@ -913,11 +935,22 @@ bool lp::LessThanNode::evaluateBool()
 
 	if (this->getType() == BOOL)
 	{
-		double leftNumber, rightNumber;
-		leftNumber = this->_left->evaluateNumber();
-		rightNumber = this->_right->evaluateNumber();
+		if(this->_left->getType() == STRING && this->_right->getType() == STRING)
+		{
+			std::string leftString, rightString;
+			leftString = this->_left->evaluateString();
+			rightString = this->_right->evaluateString();
 
-		result = (leftNumber < rightNumber);
+			result = (leftString < rightString);
+		}
+		else if(this->_left->getType() == NUMBER && this->_right->getType() == NUMBER)
+		{
+			double leftNumber, rightNumber;
+			leftNumber = this->_left->evaluateNumber();
+			rightNumber = this->_right->evaluateNumber();
+
+			result = (leftNumber < rightNumber);
+		}
 	}
 	else
 	{
@@ -946,11 +979,22 @@ bool lp::LessOrEqualNode::evaluateBool()
 
 	if (this->getType() == BOOL)
 	{
-		double leftNumber, rightNumber;
-		leftNumber = this->_left->evaluateNumber();
-		rightNumber = this->_right->evaluateNumber();
+		if(this->_left->getType() == STRING && this->_right->getType() == STRING)
+		{
+			std::string leftString, rightString;
+			leftString = this->_left->evaluateString();
+			rightString = this->_right->evaluateString();
 
-		result = (leftNumber <= rightNumber);
+			result = (leftString <= rightString);
+		}
+		else if(this->_left->getType() == NUMBER && this->_right->getType() == NUMBER)
+		{
+			double leftNumber, rightNumber;
+			leftNumber = this->_left->evaluateNumber();
+			rightNumber = this->_right->evaluateNumber();
+
+			result = (leftNumber <= rightNumber);
+		}
 	}
 	else
 	{
@@ -1039,6 +1083,7 @@ bool lp::NotEqualNode::evaluateBool()
 
 	if (this->getType() == BOOL)
 	{
+		std::string leftString, rightString;
 		switch(this->_left->getType()){
 			case NUMBER:
 				double leftNumber, rightNumber;
@@ -1047,6 +1092,13 @@ bool lp::NotEqualNode::evaluateBool()
 
 				// ERROR_BOUND to control the precision of real numbers
 				result = ( std::abs(leftNumber - rightNumber) >= ERROR_BOUND );
+			break;
+			case STRING:
+				leftString = this->_left->evaluateString();
+				rightString = this->_right->evaluateString();
+
+				//  Compare the strings
+				result = (leftString != rightString);
 			break;
 			case BOOL:
 				bool leftBoolean, rightBoolean;
@@ -1435,9 +1487,9 @@ void lp::PrintStmt::printAST()
 
 void lp::PrintStmt::evaluate() 
 {
-	std::cout << BIYELLOW; 
-	std::cout << "print: ";
-	std::cout << RESET; 
+	// std::cout << BIYELLOW; 
+	// std::cout << "print: ";
+	// std::cout << RESET; 
 
 	std::string str;
 
@@ -1505,9 +1557,9 @@ void lp::ReadStmt::printAST()
 void lp::ReadStmt::evaluate() 
 {   
 	double value;
-	std::cout << BIYELLOW; 
-	std::cout << "Insert a numeric value --> " ;
-	std::cout << RESET; 
+	// std::cout << BIYELLOW; 
+	// std::cout << "Insert a numeric value --> " ;
+	// std::cout << RESET; 
 	std::cin >> value;
 
 	/* Get the identifier in the table of symbols as Variable */
@@ -2284,6 +2336,22 @@ void lp::PlaceStmt::evaluate()
 	y = this->_exp2->evaluateNumber();
 
 	std::cout << PLACE(x, y);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+// NEW in Compiler
+
+void lp::CommentStmt::printAST() 
+{
+	std::cout << "CommentStmt: "  << std::endl;
+	std::cout << "\t";
+	std::cout << this->_comment << std::endl;
+}
+
+void lp::CommentStmt::evaluate() 
+{
+  // Empty
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

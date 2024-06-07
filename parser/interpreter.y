@@ -148,6 +148,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
   lp::Statement *st;				 /* NEW in example 16 */
   lp::AST *prog;					 /* NEW in example 16 */
   std::list<lp::ValueStmt *> *values; /* NEW in Compiler */
+  char* comment;						/* NEW in Compiler */
 }
 
 /* Type of the non-terminal symbols */
@@ -180,6 +181,8 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 
 /* NEW in Compiler */
 %token READ_STRING THEN END_IF DO END_WHILE REPEAT UNTIL FOR END_FOR FROM STEP CASE VALUE DEFAULT END_CASE CLEAN PLACE COLON
+
+%token <comment> COMMENT
 
 /* NEW in example 17 */
 %token LETFCURLYBRACKET RIGHTCURLYBRACKET
@@ -376,6 +379,11 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 	 {
 		// Default action
 		// $$ = $1;
+	 }
+	/*  NEW in Compiler */
+	| COMMENT
+	 {
+		$$ = new lp::CommentStmt($1);
 	 }
 ;
 

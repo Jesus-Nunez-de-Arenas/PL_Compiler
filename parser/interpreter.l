@@ -63,6 +63,10 @@ NUMBER2 {DIGIT}*\.{DIGIT}+
 
 IDENTIFIER  [a-zA-Z]([a-zA-Z0-9]|_?[a-zA-Z0-9])*
 
+COMMENTSHORT !!.*\n
+
+COMMENTLONG <<([^>]|>[^>])*>>
+
 STRING \'(\\.|[^\\'])*\'
 
 /* NEW in example 3 */
@@ -198,7 +202,7 @@ STRING \'(\\.|[^\\'])*\'
 "}"		{ return RIGHTCURLYBRACKET; }	/* NEW in example 17 */
 
 {STRING}	{
-				/* NEW in example 7 */
+				/* NEW in Compiler */
 				/* 
 				 strdup() function returns a pointer to a new string 
 				 which  is a duplicate of the string yytext
@@ -211,6 +215,29 @@ STRING \'(\\.|[^\\'])*\'
 				return STRING;
 			}
 
+{COMMENTSHORT} 	{
+					/* NEW in Compiler */
+					int i;
+					char* comments = (char*)malloc(yyleng-2);
+					for(i=2; i<yyleng-1; i++){
+						comments[i-2] = yytext[i];
+					}
+					comments[yyleng-3] = '\0';
+					yylval.comment = comments;
+					return COMMENT;
+				}
+
+{COMMENTLONG} 	{
+					/* NEW in Compiler */
+					int i;
+					char* commentl = (char*)malloc(yyleng-4);
+					for(i=2; i<yyleng-2; i++){
+						commentl[i-2] = yytext[i];
+					}
+					commentl[yyleng-4] = '\0';
+					yylval.comment = commentl;
+					return COMMENT;
+				}
 
 <<EOF>> { /* The interpreter finishes when finds the end of file character */
 		/*  PLACE(24,10);

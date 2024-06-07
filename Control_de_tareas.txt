@@ -95,7 +95,7 @@ CADENA:										[x]
 
 										CONTROL		FECHA
 -------------------------------------------------------------------------------------
-OPERADORES:								[ ]					
+OPERADORES:								[x]					
 -------------------------------------------------------------------------------------
 	NUMÉRICOS							[x]
 		ASIGNACION :=				[x]
@@ -114,12 +114,12 @@ OPERADORES:								[ ]
 	ALFANUMÉRICOS						[x]
 		CONCATENACION ||			[x]
 
-	RELACIONALES CON NÚMEROS Y CADENAS	[ ]
-		MENOR QUE <					[ ]
-		MENOR O IGUAL QUE <=		[ ]
-		MAYOR QUE >					[ ]
-		MAYOR O IGUAL QUE >=		[ ]
-		DISTINTO DE <>				[ ]
+	RELACIONALES CON NÚMEROS Y CADENAS	[x]
+		MENOR QUE <					[x]
+		MENOR O IGUAL QUE <=		[x]
+		MAYOR QUE >					[x]
+		MAYOR O IGUAL QUE >=		[x]
+		DISTINTO DE <>				[x]
 
 	LÓGICOS								[x]
 		DISYUNCIÓN #o				[x]
@@ -128,11 +128,11 @@ OPERADORES:								[ ]
 
 										CONTROL		FECHA
 -------------------------------------------------------------------------------------
-OTROS:									[ ]								
+OTROS:									[x]								
 -------------------------------------------------------------------------------------
-	COMENTARIOS							[ ]
-		VARIAS LINEAS: DELIMITADORES << ... >> 	[ ]
-		UNA LÍNEA: DELIMITADOR !!				[ ]
+	COMENTARIOS							[x]
+		VARIAS LINEAS: DELIMITADORES << ... >> 	[x]
+		UNA LÍNEA: DELIMITADOR !!				[x]
 
 	FIN DE LINEA ;							[x]
 
@@ -201,9 +201,9 @@ COMANDOS ESPECIALES:								[x]
 
 												CONTROL		FECHA
 -------------------------------------------------------------------------------------
-OBSERVACIONES:									[ ]		
+OBSERVACIONES:									[x]		
 -------------------------------------------------------------------------------------
-	CAMBIO DE TIPO DINÁMICO	DE LA VARIABLE		[ ]
+	CAMBIO DE TIPO DINÁMICO	DE LA VARIABLE		[x]
 
 
 												CONTROL		FECHA
@@ -227,8 +227,8 @@ SEMÁNTICOS										[ ]
 
 DE EJECUCIÓN									[ ]
 	SENTENCIA "PARA" CON BUCLE INFINITO		[ ]
-	FICHERO INEXISTENTE						[ ]
-	FICHERO CON EXTENSIÓN INCORRECTA		[ ]
+	FICHERO INEXISTENTE						[x]
+	FICHERO CON EXTENSIÓN INCORRECTA		[x]
 	OTROS									[ ]
 
 											CONTROL		FECHA

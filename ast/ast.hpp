@@ -2174,6 +2174,48 @@ class PlaceStmt : public Statement
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
+// NEW in Compiler
+
+/*!
+	\class CommentStmt
+	\brief Definition of atributes and methods of CommentStmt class
+	\note  CommentStmt Class publicly inherits from Statement class 
+		   and adds its own printAST and evaluate functions
+*/
+
+class CommentStmt : public Statement 
+{
+  private:
+	std::string _comment; //!< Comment of the comment statement
+
+  public:
+/*!
+	\brief Constructor of CommentStmt
+	\param comment: string, comment of the comment statement
+	\post  A new CommentStmt is created with the parameter
+*/
+  CommentStmt(std::string comment): _comment(comment)
+	{
+		// Empty
+	}
+
+/*!
+	\brief   Print the AST for CommentStmt
+	\return  void
+	\sa		   evaluate
+*/
+  void printAST();
+
+/*!
+	\brief   Evaluate the CommentStmt
+	\return  void
+	\sa	   	 printAST
+*/
+  void evaluate();
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 // NEW in example 17
 
 /*!	

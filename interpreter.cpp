@@ -111,9 +111,24 @@ int main(int argc, char *argv[])
  */
  if (argc == 2) 
  {
-     yyin = fopen(argv[1],"r");
+    yyin = fopen(argv[1],"r");
+    if(yyin == NULL)
+    {
+      yyin = stdin;
+      std::cout << "File " << argv[1] << " not found\n Initializing interactive mode\n";
+      interactiveMode = true;
+    }else{
+      std::string name = argv[1];
+      if(name.find(".e") != std::string::npos)
+      {
+        interactiveMode = false;
+      }else{
+        yyin = stdin;
+        std::cout << "File " << argv[1] << " is not a .e file\n Initializing interactive mode\n";
+        interactiveMode = true;
+      }
 
-	 interactiveMode = false;
+    }
  }
 else
  {
