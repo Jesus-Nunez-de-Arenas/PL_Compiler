@@ -212,9 +212,9 @@ CONTROL DE ERRORES:								[ ]
 -------------------------------------------------------------------------------------
 LÉXICOS											[ ]
 	IDENTIFICADOR MAL ESCRITO 				[ ]
-	NÚMERO MAL ESCRITO 						[ ]
-	SIMBOLO NO PERMITIDO					[ ]
-	OTROS							        [ ]
+	NÚMERO MAL ESCRITO 						[x]
+	SIMBOLO NO PERMITIDO					[x]
+	OTROS							        [x]
 
 SINTÁCTICOS										[ ]
 	SENTENCIA DE CONTROL MAL ESCRITA		[ ]

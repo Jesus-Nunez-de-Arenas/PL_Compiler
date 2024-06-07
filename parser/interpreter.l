@@ -61,13 +61,19 @@ NUMBER1 {DIGIT}+\.?
 
 NUMBER2 {DIGIT}*\.{DIGIT}+
 
+ERROR_NUMBER -?[0-9]+(([a-df-zA-DFZ]+|((\.\.+)[0-9]|(\.[0-9])(\.[0-9])+))|\.|[eE])
+
 IDENTIFIER  [a-zA-Z]([a-zA-Z0-9]|_?[a-zA-Z0-9])*
+
+ERROR_OPERATOR [-+*/%&|^=!<>]+
 
 COMMENTSHORT !!.*\n
 
 COMMENTLONG <<([^>]|>[^>])*>>
 
 STRING \'(\\.|[^\\'])*\'
+
+
 
 /* NEW in example 3 */
 /* STATE  */
@@ -158,6 +164,11 @@ STRING \'(\\.|[^\\'])*\'
 							}
                      }
 
+{ERROR_NUMBER} {
+	/* NEW in Compiler*/
+	warning("Lexical error: wrong number", yytext);
+}
+
 "||"   	{ return CONCATENATION; }	/* NEW in Compiler */
 
 "-"		{ return MINUS;  } 			/* NEW in example 3 */
@@ -200,6 +211,7 @@ STRING \'(\\.|[^\\'])*\'
 "{"		{ return LETFCURLYBRACKET; } 	/* NEW in example 17 */
 
 "}"		{ return RIGHTCURLYBRACKET; }	/* NEW in example 17 */
+
 
 {STRING}	{
 				/* NEW in Compiler */
@@ -249,6 +261,11 @@ STRING \'(\\.|[^\\'])*\'
 		*/
 	  	  return 0;
 	}
+
+{ERROR_OPERATOR} {
+	/* NEW in Compiler*/
+	warning("Lexical error: wrong operator", yytext);
+}
 
 .								{ 	
 									/* Any other character */
