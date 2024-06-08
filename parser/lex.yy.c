@@ -286,18 +286,18 @@ static void yy_fatal_error YY_PROTO(( yyconst char msg[] ));
 	*yy_cp = '\0'; \
 	yy_c_buf_p = yy_cp;
 
-#define YY_NUM_RULES 37
-#define YY_END_OF_BUFFER 38
+#define YY_NUM_RULES 38
+#define YY_END_OF_BUFFER 39
 static yyconst short int yy_accept[76] =
     {   0,
-        0,    0,    0,    0,   38,   34,    1,    2,   33,   34,
-       16,   33,   34,   14,   15,   11,   10,    4,    9,   34,
-       13,    5,   34,    3,   24,   19,   23,    6,   28,   33,
-       29,   35,   36,   33,   33,    0,   26,   27,    0,   30,
-        0,   17,    0,    5,   12,    5,    5,    7,    7,   18,
-       33,   22,   20,   21,    6,    0,    8,    0,   31,   33,
-       25,    7,    0,    5,    0,   33,   33,    6,    0,    0,
-        0,   32,    7,   32,    0
+        0,    0,    0,    0,   39,   35,    1,    2,   34,   35,
+       17,   34,   35,   14,   15,   11,   10,    4,    9,   35,
+       13,    5,   16,    3,   25,   20,   24,    6,   29,   34,
+       30,   36,   37,   34,   34,    0,   27,   28,    0,   31,
+        0,   18,    0,    5,   12,    5,    5,    7,    7,   19,
+       34,   23,   21,   22,    6,    0,    8,    0,   32,   34,
+       26,    7,    0,    5,    0,   34,   34,    6,    0,    0,
+        0,   33,    7,   33,    0
     } ;
 
 static yyconst int yy_ec[256] =
@@ -909,75 +909,80 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
+#line 184 "interpreter.l"
+{ return COLON; }			/* NEW in Compiler */
+	YY_BREAK
+case 17:
+YY_RULE_SETUP
 #line 186 "interpreter.l"
 { return MODULO; }			/* NEW in example 5 */
 	YY_BREAK
-case 17:
+case 18:
 YY_RULE_SETUP
 #line 188 "interpreter.l"
 { return POWER; }			/* NEW in example 5 */
 	YY_BREAK
-case 18:
+case 19:
 YY_RULE_SETUP
 #line 190 "interpreter.l"
 { return ASSIGNMENT; }		/* NEW in example 7 */
 	YY_BREAK
-case 19:
+case 20:
 YY_RULE_SETUP
 #line 193 "interpreter.l"
 { return EQUAL; }			/* NEW in example 15 */
 	YY_BREAK
-case 20:
+case 21:
 YY_RULE_SETUP
 #line 195 "interpreter.l"
 { return NOT_EQUAL; }		/* NEW in example 15 */
 	YY_BREAK
-case 21:
+case 22:
 YY_RULE_SETUP
 #line 197 "interpreter.l"
 { return GREATER_OR_EQUAL; }/* NEW in example 15 */
 	YY_BREAK
-case 22:
+case 23:
 YY_RULE_SETUP
 #line 199 "interpreter.l"
 { return LESS_OR_EQUAL; }	/* NEW in example 15 */
 	YY_BREAK
-case 23:
+case 24:
 YY_RULE_SETUP
 #line 201 "interpreter.l"
 { return GREATER_THAN; }	/* NEW in example 15 */
 	YY_BREAK
-case 24:
+case 25:
 YY_RULE_SETUP
 #line 203 "interpreter.l"
 { return LESS_THAN; }		/* NEW in example 15 */
 	YY_BREAK
-case 25:
+case 26:
 YY_RULE_SETUP
 #line 205 "interpreter.l"
 { return NOT; }				/* NEW in example 15 */
 	YY_BREAK
-case 26:
+case 27:
 YY_RULE_SETUP
 #line 207 "interpreter.l"
 { return OR; }				/* NEW in example 15 */
 	YY_BREAK
-case 27:
+case 28:
 YY_RULE_SETUP
 #line 209 "interpreter.l"
 { return AND; }				/* NEW in example 15 */
 	YY_BREAK
-case 28:
+case 29:
 YY_RULE_SETUP
 #line 211 "interpreter.l"
 { return LETFCURLYBRACKET; } 	/* NEW in example 17 */
 	YY_BREAK
-case 29:
+case 30:
 YY_RULE_SETUP
 #line 213 "interpreter.l"
 { return RIGHTCURLYBRACKET; }	/* NEW in example 17 */
 	YY_BREAK
-case 30:
+case 31:
 YY_RULE_SETUP
 #line 216 "interpreter.l"
 {
@@ -994,7 +999,7 @@ YY_RULE_SETUP
 				return STRING;
 			}
 	YY_BREAK
-case 31:
+case 32:
 YY_RULE_SETUP
 #line 230 "interpreter.l"
 {
@@ -1009,7 +1014,7 @@ YY_RULE_SETUP
 					return COMMENT;
 				}
 	YY_BREAK
-case 32:
+case 33:
 YY_RULE_SETUP
 #line 242 "interpreter.l"
 {
@@ -1038,7 +1043,7 @@ case YY_STATE_EOF(ERROR):
 	  	  return 0;
 	}
 	YY_BREAK
-case 33:
+case 34:
 YY_RULE_SETUP
 #line 265 "interpreter.l"
 {
@@ -1046,7 +1051,7 @@ YY_RULE_SETUP
 	warning("Lexical error: wrong operator", yytext);
 }
 	YY_BREAK
-case 34:
+case 35:
 YY_RULE_SETUP
 #line 270 "interpreter.l"
 { 	
@@ -1062,7 +1067,7 @@ YY_RULE_SETUP
 									yymore();  
 								}
 	YY_BREAK
-case 35:
+case 36:
 YY_RULE_SETUP
 #line 283 "interpreter.l"
 { /* MODIFIED in examples 5, 7, 15 */
@@ -1074,7 +1079,7 @@ YY_RULE_SETUP
 									yymore(); 
 								}
 	YY_BREAK
-case 36:
+case 37:
 YY_RULE_SETUP
 #line 292 "interpreter.l"
 { 
@@ -1089,12 +1094,12 @@ YY_RULE_SETUP
    								BEGIN(INITIAL);
 							}
 	YY_BREAK
-case 37:
+case 38:
 YY_RULE_SETUP
 #line 303 "interpreter.l"
 ECHO;
 	YY_BREAK
-#line 1098 "lex.yy.c"
+#line 1103 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{

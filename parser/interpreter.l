@@ -181,7 +181,7 @@ STRING \'(\\.|[^\\'])*\'
 "("     { return LPAREN; } 			/* NEW in example 3 */
 ")"	    { return RPAREN; } 			/* NEW in example 3 */
 
-
+":"    { return COLON; }			/* NEW in Compiler */
 
 "%"     { return MODULO; }			/* NEW in example 5 */
 
