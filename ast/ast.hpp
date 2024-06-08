@@ -1723,7 +1723,7 @@ class EmptyStmt : public Statement
 
   public:
 /*!		
-	\brief Constructor of  WhileStmt
+	\brief Constructor of  EmptyStmt
 	\post  A new EmptyStmt is created 
 */
   EmptyStmt()

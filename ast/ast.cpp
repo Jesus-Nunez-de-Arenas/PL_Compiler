@@ -1602,9 +1602,9 @@ void lp::ReadStringStmt::printAST()
 
 void lp::ReadStringStmt::evaluate(){
 	std::string value;
-	std::cout << BIYELLOW; 
-	std::cout << "Insert a string value --> " ;
-	std::cout << RESET; 
+	// std::cout << BIYELLOW; 
+	// std::cout << "Insert a string value --> " ;
+	// std::cout << RESET; 
 	std::cin >> value;
 
 	/* Get the identifier in the table of symbols as Variable */
