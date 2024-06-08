@@ -1298,7 +1298,6 @@ void lp::AssignmentStmt::evaluate()
 
 				if (firstVar->getType() == STRING)
 				{
-					std::cout << "STRING" << std::endl;
 				  	// Get the identifier in the table of symbols as StringVariable
 					lp::StringVariable *v = (lp::StringVariable *) table.getSymbol(this->_id);
 
