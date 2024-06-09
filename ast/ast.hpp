@@ -1931,6 +1931,10 @@ class ForStmt : public Statement
 		// Empty
 	}
 
+	ForStmt(std::string id, ExpNode *exp1, ExpNode *exp2, std::list<Statement*> *stmts): _id(id), _exp1(exp1), _exp2(exp2), _step(NULL), _stmts(stmts)
+	{
+		// Empty
+	}
 /*!
 	\brief   Print the AST for ForStmt
 	\return  void

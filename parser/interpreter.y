@@ -298,7 +298,11 @@ stmtlist:  /* empty: epsilon rule */
 ;
  
 
-stmt: SEMICOLON  /* Empty statement: ";" */
+stmt:  COMMENT
+	 {
+		$$ = new lp::CommentStmt($1);
+	 }
+	| SEMICOLON  /* Empty statement: ";" */
 	  {
 		// Create a new empty statement node
 		$$ = new lp::EmptyStmt(); 
@@ -345,7 +349,7 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 		// $$ = $1;
 	 }
 	/*  NEW in Compiler */
-	| do
+	| do SEMICOLON
 	 {
 		// Default action
 		// $$ = $1;
@@ -379,11 +383,6 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 	 {
 		// Default action
 		// $$ = $1;
-	 }
-	/*  NEW in Compiler */
-	| COMMENT
-	 {
-		$$ = new lp::CommentStmt($1);
 	 }
 ;
 
@@ -458,6 +457,13 @@ for: FOR VARIABLE FROM exp UNTIL exp STEP exp DO controlSymbol stmtlist END_FOR
 		{
 			// Create a new for statement node
 			$$ = new lp::ForStmt($2, $4, $6, $8, $11);
+
+			control--;
+		}
+	| FOR VARIABLE FROM exp UNTIL exp DO controlSymbol stmtlist END_FOR
+		{
+			// Create a new for statement node
+			$$ = new lp::ForStmt($2, $4, $6, $9);
 
 			control--;
 		}
